@@ -17,13 +17,13 @@ target_link_libraries(std_transform_multiply_benchmark PRIVATE
   std_transform_multiply
 )
 
-#add_library(par_std_transform_multiply_benchmark OBJECT
-#  par_std_transform_multiply_benchmark.cpp
-#)
-#target_link_libraries(par_std_transform_multiply_benchmark PRIVATE
-#  par_std_transform_multiply
-#)
-#
+add_library(par_std_transform_multiply_benchmark OBJECT
+  par_std_transform_multiply_benchmark.cpp
+)
+target_link_libraries(par_std_transform_multiply_benchmark PRIVATE
+  par_std_transform_multiply
+)
+
 #add_library(cuda_host_multiply_benchmark OBJECT
 #  cuda_host_multiply_benchmark.cpp
 #)
@@ -45,7 +45,7 @@ target_link_libraries(multiply_benchmark PRIVATE
   noop_multiply_benchmark
   single_threaded_multiply_benchmark
   std_transform_multiply_benchmark
-  #par_std_transform_multiply_benchmark
+  par_std_transform_multiply_benchmark
   #cuda_host_multiply_benchmark
   #cuda_device_multiply_benchmark
 )
@@ -55,7 +55,8 @@ target_sources(multiply_benchmark PRIVATE
   $<TARGET_OBJECTS:single_threaded_multiply_benchmark>
   $<TARGET_OBJECTS:std_transform_multiply>
   $<TARGET_OBJECTS:std_transform_multiply_benchmark>
-  #$<TARGET_OBJECTS:par_std_transform_multiply_benchmark>
+  $<TARGET_OBJECTS:par_std_transform_multiply>
+  $<TARGET_OBJECTS:par_std_transform_multiply_benchmark>
   #$<TARGET_OBJECTS:cuda_host_multiply_benchmark>
   #$<TARGET_OBJECTS:cuda_device_multiply_benchmark>
 )
