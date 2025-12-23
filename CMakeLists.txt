@@ -32,4 +32,5 @@ include_directories(${GTEST_INCLUDE_DIRS})
 
 include_directories(include)
 add_subdirectory(src)
+add_subdirectory(benchmark)
 add_subdirectory(test)
