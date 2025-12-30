@@ -8,12 +8,12 @@ __global__ void cuda_multiply_kernel(int n, double const* a, double const* b,
   }
 }
 
-constexpr int bpg(int n, int threads_per_block) {
+inline constexpr int bpg(int n, int threads_per_block) {
   return (n + threads_per_block - 1) / threads_per_block;
 }
 
-void cuda_host_multiply_impl(int threads_per_block, int n, double const* a,
-                             double const* b, double* c) {
+void cuda_multiply_impl(int threads_per_block, int n, double const* a,
+                        double const* b, double* c) {
   double* dev_a = nullptr;
   cudaMalloc(&dev_a, n * sizeof(double));
   cudaMemcpy(dev_a, a, n * sizeof(double), cudaMemcpyHostToDevice);
@@ -33,8 +33,8 @@ void cuda_host_multiply_impl(int threads_per_block, int n, double const* a,
   cudaFree(dev_a);
 }
 
-void cuda_device_multiply_impl(int threads_per_block, int n, double const* a,
-                               double const* b, double* c) {
-  int blocks_per_grid = bpg(n, threads_per_block);
-  cuda_multiply_kernel<<<blocks_per_grid, threads_per_block>>>(n, a, b, c);
-}
+// void cuda_device_multiply_impl(int threads_per_block, int n, double const* a,
+//                                double const* b, double* c) {
+//   int blocks_per_grid = bpg(n, threads_per_block);
+//   cuda_multiply_kernel<<<blocks_per_grid, threads_per_block>>>(n, a, b, c);
+// }

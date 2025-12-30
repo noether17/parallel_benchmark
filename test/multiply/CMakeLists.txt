@@ -4,5 +4,6 @@ target_link_libraries(multiply_test
   GTest::Main
   std_transform_multiply
   par_std_transform_multiply
+  cuda_multiply
 )
 add_test(NAME multiply_test COMMAND multiply_test)

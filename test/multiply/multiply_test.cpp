@@ -44,3 +44,10 @@ TEST_F(MultiplyTest, ParStdTransformMultiplyTest) {
     EXPECT_DOUBLE_EQ(a[i] * b[i], c[i]);
   }
 }
+
+TEST_F(MultiplyTest, CudaMultiplyTest) {
+  cuda_multiply<256>(N, a.data(), b.data(), c.data());
+  for (auto i = 0; i < N; ++i) {
+    EXPECT_DOUBLE_EQ(a[i] * b[i], c[i]);
+  }
+}

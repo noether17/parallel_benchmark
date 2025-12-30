@@ -4,6 +4,7 @@ set(MULTIPLY_BENCHMARKS
   single_threaded_multiply_benchmark
   std_transform_multiply_benchmark
   par_std_transform_multiply_benchmark
+  cuda_multiply_benchmark
 )
 
 foreach(bm IN LISTS MULTIPLY_BENCHMARKS)
@@ -17,6 +18,9 @@ target_link_libraries(std_transform_multiply_benchmark PRIVATE
 target_link_libraries(par_std_transform_multiply_benchmark PRIVATE
   par_std_transform_multiply
 )
+target_link_libraries(cuda_multiply_benchmark PRIVATE
+  cuda_multiply
+)
 
 add_executable(multiply_benchmark multiply_benchmark.cpp)
 target_link_libraries(multiply_benchmark PRIVATE
@@ -24,6 +28,7 @@ target_link_libraries(multiply_benchmark PRIVATE
   benchmark::benchmark_main
   std_transform_multiply
   par_std_transform_multiply
+  cuda_multiply
 )
 
 foreach(bm IN LISTS MULTIPLY_BENCHMARKS)
