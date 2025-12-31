@@ -22,6 +22,14 @@ target_link_libraries(cuda_multiply_benchmark PRIVATE
   cuda_multiply
 )
 
+add_library(cuda_device_multiply_benchmark OBJECT
+  cuda_device_multiply_benchmark.cu
+)
+target_link_libraries(cuda_device_multiply_benchmark PRIVATE
+  benchmark::benchmark
+  cuda_multiply
+)
+
 add_executable(multiply_benchmark multiply_benchmark.cpp)
 target_link_libraries(multiply_benchmark PRIVATE
   benchmark::benchmark
@@ -34,6 +42,9 @@ target_link_libraries(multiply_benchmark PRIVATE
 foreach(bm IN LISTS MULTIPLY_BENCHMARKS)
   target_sources(multiply_benchmark PRIVATE $<TARGET_OBJECTS:${bm}>)
 endforeach()
+target_sources(multiply_benchmark PRIVATE
+  $<TARGET_OBJECTS:cuda_device_multiply_benchmark>
+)
 
 #add_library(warmup_binary_benchmark OBJECT
 #  warmup_binary_benchmark.cpp

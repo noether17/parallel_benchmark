@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <vector>
+
 template <auto multiplier>
 struct VectorMultiplyTest {
   std::vector<double> a{};
