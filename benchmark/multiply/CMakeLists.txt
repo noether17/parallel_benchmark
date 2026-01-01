@@ -11,6 +11,9 @@ foreach(bm IN LISTS MULTIPLY_BENCHMARKS)
   target_link_libraries(${bm} PRIVATE benchmark::benchmark)
 endforeach()
 
+target_link_libraries(single_threaded_multiply_benchmark PRIVATE
+  single_threaded_multiply
+)
 target_link_libraries(std_transform_multiply_benchmark PRIVATE
   std_transform_multiply
 )
@@ -33,6 +36,7 @@ add_executable(multiply_benchmark multiply_benchmark.cpp)
 target_link_libraries(multiply_benchmark PRIVATE
   benchmark::benchmark
   benchmark::benchmark_main
+  single_threaded_multiply
   std_transform_multiply
   par_std_transform_multiply
   cuda_multiply

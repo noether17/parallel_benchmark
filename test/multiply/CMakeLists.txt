@@ -2,6 +2,7 @@ add_executable(multiply_test multiply_test.cpp)
 target_link_libraries(multiply_test
   GTest::GTest
   GTest::Main
+  single_threaded_multiply
   std_transform_multiply
   par_std_transform_multiply
   cuda_multiply

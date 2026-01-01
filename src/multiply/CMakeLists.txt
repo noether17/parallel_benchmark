@@ -1,3 +1,5 @@
+add_library(single_threaded_multiply OBJECT single_threaded_multiply.cpp)
+
 add_library(std_transform_multiply OBJECT std_transform_multiply.cpp)
 
 find_package(TBB REQUIRED)
