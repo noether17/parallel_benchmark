@@ -27,4 +27,4 @@ static void BM_device_multiply(benchmark::State& state) {
       ->MeasureProcessCPUTime()                        \
       ->UseRealTime()                                  \
       ->RangeMultiplier(2)                             \
-      ->Range(1 << 10, 1 << 20);
+      ->Range(1 << 10, 1 << 15);
