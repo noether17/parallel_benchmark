@@ -1,4 +1,4 @@
-#include "NoOp.hpp"
+#include "warmup_binary.hpp"
 #include "VectorMultiplyTest.hpp"
 #include "bm_multiply.hpp"
 
