@@ -29,7 +29,7 @@ add_library(cuda_device_multiply_benchmark OBJECT
 )
 target_link_libraries(cuda_device_multiply_benchmark PRIVATE
   benchmark::benchmark
-  cuda_multiply
+  cuda_device_multiply
 )
 
 add_executable(multiply_benchmark multiply_benchmark.cpp)
@@ -40,6 +40,7 @@ target_link_libraries(multiply_benchmark PRIVATE
   std_transform_multiply
   par_std_transform_multiply
   cuda_multiply
+  cuda_device_multiply
 )
 
 foreach(bm IN LISTS MULTIPLY_BENCHMARKS)

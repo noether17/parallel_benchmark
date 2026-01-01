@@ -9,3 +9,5 @@ target_link_libraries(par_std_transform_multiply PRIVATE
 )
 
 add_library(cuda_multiply OBJECT cuda_multiply.cu)
+
+add_library(cuda_device_multiply OBJECT cuda_device_multiply.cu)
