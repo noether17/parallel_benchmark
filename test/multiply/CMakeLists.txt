@@ -69,6 +69,13 @@ foreach(multiplier IN LISTS local_cuda_host_multipliers)
   generate_multiply_test_for_function(HOST ${multiplier}_test "${multiplier}<32>")
 endforeach()
 
+get_property(local_cuda_device_multipliers GLOBAL PROPERTY
+  CUDA_DEVICE_MULTIPLIERS
+)
+foreach(multiplier IN LISTS local_cuda_device_multipliers)
+  generate_multiply_test_for_function(DEVICE ${multiplier}_test "${multiplier}<32>")
+endforeach()
+
 add_executable(cuda_device_multiply_test cuda_device_multiply_test.cu)
 target_link_libraries(cuda_device_multiply_test
   GTest::GTest
