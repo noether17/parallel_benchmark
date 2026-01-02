@@ -1,10 +1,13 @@
 # C++ multiply libraries
-set(CXX_MULTIPLIERS
+set_property(GLOBAL PROPERTY CXX_MULTIPLIERS
   single_threaded_multiply
   std_transform_multiply
   par_std_transform_multiply
 )
-foreach(multiplier IN LISTS CXX_MULTIPLIERS)
+get_property(local_cxx_multipliers GLOBAL PROPERTY
+  CXX_MULTIPLIERS
+)
+foreach(multiplier IN LISTS local_cxx_multipliers)
   add_library(${multiplier} OBJECT ${multiplier}.cpp)
 endforeach()
 
@@ -14,17 +17,23 @@ target_link_libraries(par_std_transform_multiply PRIVATE
 )
 
 # CUDA multiply libraries operating on host data
-set(CUDA_HOST_MULTIPLIERS
+set_property(GLOBAL PROPERTY CUDA_HOST_MULTIPLIERS
   cuda_multiply
 )
-foreach(multiplier IN LISTS CUDA_HOST_MULTIPLIERS)
+get_property(local_cuda_host_multipliers GLOBAL PROPERTY
+  CUDA_HOST_MULTIPLIERS
+)
+foreach(multiplier IN LISTS local_cuda_host_multipliers)
   add_library(${multiplier} OBJECT ${multiplier}.cu)
 endforeach()
 
 # CUDA multiply libraries operating on device data
-set(CUDA_DEVICE_MULTIPLIERS
+set_property(GLOBAL PROPERTY CUDA_DEVICE_MULTIPLIERS
   cuda_device_multiply
 )
-foreach(multiplier IN LISTS CUDA_DEVICE_MULTIPLIERS)
+get_property(local_cuda_device_multipliers GLOBAL PROPERTY
+  CUDA_DEVICE_MULTIPLIERS
+)
+foreach(multiplier IN LISTS local_cuda_device_multipliers)
   add_library(${multiplier} OBJECT ${multiplier}.cu)
 endforeach()
