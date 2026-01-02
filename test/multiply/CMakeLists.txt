@@ -1,14 +1,3 @@
-add_executable(multiply_test multiply_test.cpp)
-target_link_libraries(multiply_test
-  GTest::GTest
-  GTest::Main
-  single_threaded_multiply
-  std_transform_multiply
-  par_std_transform_multiply
-  cuda_multiply
-)
-add_test(NAME multiply_test COMMAND multiply_test)
-
 function(generate_multiply_test_for_function
          test_type test_name function_name)
   # Configured text
@@ -36,7 +25,6 @@ function(generate_multiply_test_for_function
   set(out_file
     "${CMAKE_CURRENT_BINARY_DIR}/generated/${FUNCTION_TOKEN}_test.${OUT_FILE_EXT}"
   )
-  message(STATUS "out_file: ${out_file}")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/multiply_test.cpp.in"
     "${out_file}"
   )
@@ -75,11 +63,3 @@ get_property(local_cuda_device_multipliers GLOBAL PROPERTY
 foreach(multiplier IN LISTS local_cuda_device_multipliers)
   generate_multiply_test_for_function(DEVICE ${multiplier}_test "${multiplier}<32>")
 endforeach()
-
-add_executable(cuda_device_multiply_test cuda_device_multiply_test.cu)
-target_link_libraries(cuda_device_multiply_test
-  GTest::GTest
-  GTest::Main
-  cuda_device_multiply
-)
-add_test(NAME cuda_device_multiply_test COMMAND cuda_device_multiply_test)
