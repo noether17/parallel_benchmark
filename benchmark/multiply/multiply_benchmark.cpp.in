@@ -1,0 +1,5 @@
+#include "${BENCHMARKER_HEADER}"
+#include "BM_Multiply.hpp"
+#include "multiply/multiply.hpp"
+
+BM_MULTIPLY_SET(${BENCHMARKER_TEMPLATE}<${FUNCTION_NAME}>);
