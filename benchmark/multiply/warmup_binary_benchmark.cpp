@@ -1,5 +1,5 @@
+#include "BM_Multiply.hpp"
+#include "MultiplyBenchmarker.hpp"
 #include "warmup_binary.hpp"
-#include "VectorMultiplyTest.hpp"
-#include "bm_multiply.hpp"
 
-BM_MULTIPLY(VectorMultiplyTest<warmup_binary>);
+BM_MULTIPLY_SET(MultiplyBenchmarker<warmup_binary>);

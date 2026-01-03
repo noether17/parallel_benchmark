@@ -3,20 +3,20 @@
 #include <algorithm>
 #include <vector>
 
+#include "MultiplyBenchmarker.hpp"
+#include "REPEAT.hpp"
+
 template <auto multiplier>
-struct VectorDeviceMultiplyTest {
-  std::vector<double> a{};
-  std::vector<double> b{};
-  std::vector<double> c{};
+struct DeviceMultiplyBenchmarker : MultiplyBenchmarker<multiplier> {
+  using MultiplyBenchmarker<multiplier>::a;
+  using MultiplyBenchmarker<multiplier>::b;
+  using MultiplyBenchmarker<multiplier>::c;
   double* dev_a{};
   double* dev_b{};
   double* dev_c{};
 
-  VectorDeviceMultiplyTest(int n) : a(n), b(n), c(n) {
-    for (auto i = 0; auto& x : a) {
-      x = static_cast<double>(i++) / static_cast<double>(n);
-    }
-    std::ranges::copy(a, std::begin(b));
+  explicit DeviceMultiplyBenchmarker(int n)
+      : MultiplyBenchmarker<multiplier>(n) {
     cudaMalloc(&dev_a, n * sizeof(double));
     cudaMalloc(&dev_b, n * sizeof(double));
     cudaMalloc(&dev_c, n * sizeof(double));
@@ -24,11 +24,18 @@ struct VectorDeviceMultiplyTest {
     cudaMemcpy(dev_b, b.data(), n * sizeof(double), cudaMemcpyHostToDevice);
   }
 
-  ~VectorDeviceMultiplyTest() {
+  ~DeviceMultiplyBenchmarker() {
     cudaFree(dev_c);
     cudaFree(dev_b);
     cudaFree(dev_a);
   }
 
   void multiply() { multiplier(a.size(), dev_a, dev_b, dev_c); }
+
+  void repeat_multiply() {
+    REPEAT({ multiply(); });
+    cudaDeviceSynchronize();
+  }
+
+  static auto n_repeat() { return N_REPEAT; }
 };

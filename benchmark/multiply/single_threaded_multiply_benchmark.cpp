@@ -1,5 +1,5 @@
-#include "VectorMultiplyTest.hpp"
-#include "bm_multiply.hpp"
+#include "BM_Multiply.hpp"
+#include "MultiplyBenchmarker.hpp"
 #include "multiply/multiply.hpp"
 
-BM_MULTIPLY(VectorMultiplyTest<single_threaded_multiply>);
+BM_MULTIPLY_SET(MultiplyBenchmarker<single_threaded_multiply>);
