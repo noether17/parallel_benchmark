@@ -32,7 +32,7 @@ target_link_libraries(cuda_device_multiply_benchmark PRIVATE
   cuda_device_multiply
 )
 
-add_executable(multiply_benchmark multiply_benchmark.cpp)
+add_executable(multiply_benchmark)
 target_link_libraries(multiply_benchmark PRIVATE
   benchmark::benchmark
   benchmark::benchmark_main
