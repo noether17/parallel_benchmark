@@ -3,6 +3,7 @@ set_property(GLOBAL PROPERTY CXX_MULTIPLIERS
   single_threaded_multiply
   std_transform_multiply
   par_std_transform_multiply
+  SingleThreadedExecutor_multiply
 )
 get_property(local_cxx_multipliers GLOBAL PROPERTY
   CXX_MULTIPLIERS

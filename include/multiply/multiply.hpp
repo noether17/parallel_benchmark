@@ -22,3 +22,6 @@ void cuda_device_multiply(int n, double const* dev_a, double const* dev_b,
                           double* dev_c) {
   cuda_device_multiply_impl(threads_per_block, n, dev_a, dev_b, dev_c);
 }
+
+void SingleThreadedExecutor_multiply(int n, double const* a, double const* b,
+                                     double* c);
