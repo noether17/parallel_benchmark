@@ -70,3 +70,10 @@ target_link_libraries(SingleThreadedExecutor_test PRIVATE
   GTest::Main
 )
 add_test(NAME SingleThreadedExecutor_test COMMAND SingleThreadedExecutor_test)
+
+add_executable(ThreadPoolExecutor_test ThreadPoolExecutor_test.cpp)
+target_link_libraries(ThreadPoolExecutor_test PRIVATE
+  GTest::GTest
+  GTest::Main
+)
+add_test(NAME ThreadPoolExecutor_test COMMAND ThreadPoolExecutor_test)

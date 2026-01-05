@@ -102,3 +102,13 @@ target_link_libraries(SingleThreadedExecutor_benchmark PRIVATE
 target_sources(multiply_benchmark PRIVATE
   $<TARGET_OBJECTS:SingleThreadedExecutor_benchmark>
 )
+
+add_library(ThreadPoolExecutor_benchmark OBJECT
+  ThreadPoolExecutor_multiply_benchmark.cpp
+)
+target_link_libraries(ThreadPoolExecutor_benchmark PRIVATE
+  benchmark::benchmark
+)
+target_sources(multiply_benchmark PRIVATE
+  $<TARGET_OBJECTS:ThreadPoolExecutor_benchmark>
+)
