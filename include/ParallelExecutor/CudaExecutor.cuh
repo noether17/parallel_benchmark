@@ -3,8 +3,11 @@
 #include <cstddef>
 #include <limits>
 
-#include "ParODE/ParallelExecutor/ParallelExecutor.hpp"
-#include "ParODE/util/CudaErrorCheck.cuh"
+//#include "ParODE/ParallelExecutor/ParallelExecutor.hpp"
+//#include "ParODE/util/CudaErrorCheck.cuh"
+
+#include "ParallelExecutor.hpp"
+#include "CudaErrorCheck.cuh"
 
 namespace ParODE {
 template <auto kernel, typename... Args>

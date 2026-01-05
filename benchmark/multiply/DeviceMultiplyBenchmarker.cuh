@@ -1,8 +1,5 @@
 #pragma once
 
-#include <algorithm>
-#include <vector>
-
 #include "MultiplyBenchmarker.hpp"
 #include "REPEAT.hpp"
 

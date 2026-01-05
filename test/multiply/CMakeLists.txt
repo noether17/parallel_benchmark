@@ -77,3 +77,10 @@ target_link_libraries(ThreadPoolExecutor_test PRIVATE
   GTest::Main
 )
 add_test(NAME ThreadPoolExecutor_test COMMAND ThreadPoolExecutor_test)
+
+add_executable(CudaExecutor_test CudaExecutor_test.cu)
+target_link_libraries(CudaExecutor_test PRIVATE
+  GTest::GTest
+  GTest::Main
+)
+add_test(NAME CudaExecutor_test COMMAND CudaExecutor_test)
