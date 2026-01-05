@@ -63,3 +63,10 @@ get_property(local_cuda_device_multipliers GLOBAL PROPERTY
 foreach(multiplier IN LISTS local_cuda_device_multipliers)
   generate_multiply_test_for_function(DEVICE ${multiplier}_test "${multiplier}<32>")
 endforeach()
+
+add_executable(SingleThreadedExecutor_test SingleThreadedExecutor_test.cpp)
+target_link_libraries(SingleThreadedExecutor_test PRIVATE
+  GTest::GTest
+  GTest::Main
+)
+add_test(NAME SingleThreadedExecutor_test COMMAND SingleThreadedExecutor_test)
