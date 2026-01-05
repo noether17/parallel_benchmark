@@ -90,3 +90,15 @@ foreach(multiplier IN LISTS local_cuda_device_multipliers)
   generate_multiply_benchmark_for_function(DEVICE "${multiplier}<512>")
   generate_multiply_benchmark_for_function(DEVICE "${multiplier}<1024>")
 endforeach()
+
+# Rename to SingleThreadedExecutor_multiply_benchmark when that name is no
+# longer taken.
+add_library(SingleThreadedExecutor_benchmark OBJECT
+  SingleThreadedExecutor_multiply_benchmark.cpp
+)
+target_link_libraries(SingleThreadedExecutor_benchmark PRIVATE
+  benchmark::benchmark
+)
+target_sources(multiply_benchmark PRIVATE
+  $<TARGET_OBJECTS:SingleThreadedExecutor_benchmark>
+)
