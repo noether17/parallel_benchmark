@@ -19,4 +19,4 @@ static void BM_Multiply(benchmark::State& state) {
       ->MeasureProcessCPUTime()                \
       ->UseRealTime()                          \
       ->RangeMultiplier(2)                     \
-      ->Range(1 << 10, 1 << 15);
+      ->Range(1 << 10, 1 << 28);
