@@ -1,0 +1,10 @@
+#include "multiply/ThreadPoolExecutorTemplate.hpp"
+#include "multiply/par_exec_multiply.hpp"
+
+// clang-format off
+void ThreadPoolExecutor${N_THREADS}_multiply(
+    ThreadPoolExecutorTemplate<${N_THREADS}>& exe, std::size_t n,
+    double const* a, double const* b, double* c) {
+  par_exec_multiply(exe, n, a, b, c);
+}
+// clang-format on
