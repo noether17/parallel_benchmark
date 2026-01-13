@@ -84,3 +84,20 @@ target_link_libraries(CudaExecutor_test PRIVATE
   GTest::Main
 )
 add_test(NAME CudaExecutor_test COMMAND CudaExecutor_test)
+
+#########
+# ParExec
+#########
+function(generate_par_exec_test multiplier)
+  string(REGEX REPLACE "_[0-9]+" "" LIB_NAME ${multiplier})
+  string(REGEX REPLACE "[_a-zA-Z]" "" TEMPLATE_PARAM ${multiplier})
+  message(STATUS "multiplier: ${multiplier}")
+  message(STATUS "LIB_NAME: ${LIB_NAME}")
+  message(STATUS "TEMPLATE_PARAM: ${TEMPLATE_PARAM}")
+endfunction()
+
+get_property(local_par_exec_multipliers GLOBAL PROPERTY PAR_EXEC_MULTIPLIERS)
+foreach(multiplier IN LISTS local_par_exec_multipliers)
+  message(STATUS "tests/PAR_EXEC_MULTIPLIERS: ${multiplier}")
+  generate_par_exec_test(${multiplier})
+endforeach()
