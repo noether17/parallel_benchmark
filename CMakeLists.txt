@@ -30,6 +30,8 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} \
   -Xcompiler -Wextra \
   -Xcompiler -Werror \
   -Xcompiler -O3 \
+  -Xcompiler -save-temps \
+  -Xcompiler -masm=intel \
   --expt-relaxed-constexpr \
   --extended-lambda"
 )
@@ -39,6 +41,7 @@ find_package(GTest 1.14.0 REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 include_directories(include)
+include_directories(include/ParallelExecutor)
 add_subdirectory(src)
 add_subdirectory(benchmark)
 add_subdirectory(test)

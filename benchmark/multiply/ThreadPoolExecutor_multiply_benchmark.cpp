@@ -1,6 +1,6 @@
 #include "BM_Multiply.hpp"
 #include "ParExecMultiplyBenchmarker.hpp"
-#include "multiply/ThreadPoolExecutorTemplate.hpp"
+#include "ThreadPoolExecutorTemplate.hpp"
 
 BM_MULTIPLY_SET(ParExecMultiplyBenchmarker<ThreadPoolExecutorTemplate<1>>);
 BM_MULTIPLY_SET(ParExecMultiplyBenchmarker<ThreadPoolExecutorTemplate<2>>);

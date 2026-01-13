@@ -1,5 +1,5 @@
 #include "ParExecMultiplyTest.hpp"
-#include "multiply/ThreadPoolExecutorTemplate.hpp"
+#include "ThreadPoolExecutorTemplate.hpp"
 
 using ThreadPoolExecutorTest1 =
     ParExecMultiplyTest<ThreadPoolExecutorTemplate<1>>;
