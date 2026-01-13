@@ -98,8 +98,8 @@ function(generate_par_exec_multipliers par_exec_type)
 
   # Create library.
   add_library(${LIB_NAME} OBJECT ${SOURCE_FILE_PATH})
-  set(local_par_exec_multipliers "${local_par_exec_multipliers} \
-    ${LIB_NAME}"
+  set_property(GLOBAL APPEND PROPERTY PAR_EXEC_MULTIPLIERS
+    ${LIB_NAME}
   )
 endfunction()
 
@@ -112,3 +112,5 @@ set(local_cuda_threads_per_block 32 64 128 256 512 1024)
 foreach(THREADS_PER_BLOCK IN LISTS local_cuda_threads_per_block)
   generate_par_exec_multipliers("CudaExecutor<${THREADS_PER_BLOCK}>")
 endforeach()
+get_property(temp GLOBAL PROPERTY PAR_EXEC_MULTIPLIERS)
+message(STATUS "PAR_EXEC_MULTIPLIERS: ${temp}")
