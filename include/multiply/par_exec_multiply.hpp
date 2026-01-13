@@ -9,5 +9,5 @@ inline constexpr void multiply_kernel(int i, double const* a, double const* b,
 template <typename ParallelExecutor>
 void par_exec_multiply(ParallelExecutor& par_exec, int n, double const* a,
                        double const* b, double* c) {
-  call_kernel<multiply_kernel>(par_exec, n, a, b, c);
+  ParODE::call_kernel<multiply_kernel>(par_exec, n, a, b, c);
 }

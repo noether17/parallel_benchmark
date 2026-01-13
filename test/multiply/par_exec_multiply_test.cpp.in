@@ -1,0 +1,54 @@
+#include <gtest/gtest.h>
+
+#include <random>
+#include <vector>
+
+#include "multiply/par_exec_multiply.hpp"
+
+// clang-format off
+# include "${PAR_EXEC_NAME}.${HEADER_FILE_EXT}"
+#define ${TEST_TYPE}
+
+static constexpr auto N = 1 << 10;
+
+using namespace ParODE;
+
+TEST(${TEST_NAME}, ProducesCorrectOutput) {
+  auto exe = ${PAR_EXEC_TYPE}{};
+  auto a = std::vector<double>(N);
+  auto b = std::vector<double>(N);
+  auto c = std::vector<double>(N);
+  auto gen = std::mt19937{};
+  auto dist = std::uniform_real_distribution<double>{0.0, 1.0};
+  for (auto& x : a) {
+    x = dist(gen);
+  }
+  for (auto& y : b) {
+    y = dist(gen);
+  }
+
+#ifndef PAR_EXEC_CUDA_TEST
+  ${multiplier}(exe, N, a.data(), b.data(), c.data());
+#else
+  double* dev_a = nullptr;
+  cudaMalloc(&dev_a, N * sizeof(double));
+  double* dev_b = nullptr;
+  cudaMalloc(&dev_b, N * sizeof(double));
+  double* dev_c = nullptr;
+  cudaMalloc(&dev_c, N * sizeof(double));
+  cudaMemcpy(dev_a, a.data(), N * sizeof(double), cudaMemcpyHostToDevice);
+  cudaMemcpy(dev_b, b.data(), N * sizeof(double), cudaMemcpyHostToDevice);
+
+  ${multiplier}(exe, N, dev_a, dev_b, dev_c);
+
+  cudaMemcpy(c.data(), dev_c, N * sizeof(double), cudaMemcpyDeviceToHost);
+  cudaFree(dev_c);
+  cudaFree(dev_b);
+  cudaFree(dev_a);
+#endif
+
+  for (auto i = 0; i < N; ++i) {
+    EXPECT_DOUBLE_EQ(a[i] * b[i], c[i]);
+  }
+}
+// clang-format on
