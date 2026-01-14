@@ -1,0 +1,8 @@
+#pragma once
+
+// clang-format off
+#include "${PAR_EXEC_BASENAME}.${HEADER_FILE_EXT}"
+using namespace ParODE;
+void ${PAR_EXEC_TOKEN}_multiply(${PAR_EXEC_TYPE}& exe, std::size_t n,
+                                double const* a, double const* b, double* c);
+// clang-format on

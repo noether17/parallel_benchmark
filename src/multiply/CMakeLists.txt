@@ -96,8 +96,16 @@ function(generate_par_exec_multipliers par_exec_type)
     "${SOURCE_FILE_PATH}"
   )
 
+  # Generate header file.
+  set(HEADER_FILE_NAME "${LIB_NAME}.${HEADER_FILE_EXT}")
+  set(HEADER_FILE_PATH "${SOURCE_FILE_DIR}/${HEADER_FILE_NAME}")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.hpp.in"
+    "${HEADER_FILE_PATH}"
+  )
+
   # Create library.
   add_library(${LIB_NAME} OBJECT ${SOURCE_FILE_PATH})
+  target_include_directories(${LIB_NAME} INTERFACE ${SOURCE_FILE_DIR})
   set_property(GLOBAL APPEND PROPERTY PAR_EXEC_MULTIPLIERS
     ${LIB_NAME}
   )

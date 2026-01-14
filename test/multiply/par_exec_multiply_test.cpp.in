@@ -6,7 +6,7 @@
 #include "multiply/par_exec_multiply.hpp"
 
 // clang-format off
-# include "${PAR_EXEC_NAME}.${HEADER_FILE_EXT}"
+#include "${multiplier}.${HEADER_FILE_EXT}"
 #define ${TEST_TYPE}
 
 static constexpr auto N = 1 << 10;
