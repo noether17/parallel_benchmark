@@ -64,27 +64,6 @@ foreach(multiplier IN LISTS local_cuda_device_multipliers)
   generate_multiply_test_for_function(DEVICE ${multiplier}_test "${multiplier}<32>")
 endforeach()
 
-add_executable(SingleThreadedExecutor_test SingleThreadedExecutor_test.cpp)
-target_link_libraries(SingleThreadedExecutor_test PRIVATE
-  GTest::GTest
-  GTest::Main
-)
-add_test(NAME SingleThreadedExecutor_test COMMAND SingleThreadedExecutor_test)
-
-add_executable(ThreadPoolExecutor_test ThreadPoolExecutor_test.cpp)
-target_link_libraries(ThreadPoolExecutor_test PRIVATE
-  GTest::GTest
-  GTest::Main
-)
-add_test(NAME ThreadPoolExecutor_test COMMAND ThreadPoolExecutor_test)
-
-add_executable(CudaExecutor_test CudaExecutor_test.cu)
-target_link_libraries(CudaExecutor_test PRIVATE
-  GTest::GTest
-  GTest::Main
-)
-add_test(NAME CudaExecutor_test COMMAND CudaExecutor_test)
-
 #########
 # ParExec
 #########
@@ -110,11 +89,6 @@ function(generate_par_exec_test multiplier)
   string(REGEX REPLACE "__" "_" TEST_NAME ${TEST_NAME})
   set(TEST_FILE_NAME "${TEST_NAME}.${TEST_FILE_EXT}")
   set(TEST_FILE_PATH "${CMAKE_CURRENT_BINARY_DIR}/generated/${TEST_FILE_NAME}")
-  message(STATUS "multiplier: ${multiplier}")
-  message(STATUS "LIB_NAME: ${LIB_NAME}")
-  message(STATUS "TEMPLATE_PARAM: ${TEMPLATE_PARAM}")
-  message(STATUS "PAR_EXEC_NAME: ${PAR_EXEC_NAME}")
-  message(STATUS "PAR_EXEC_TYPE: ${PAR_EXEC_TYPE}")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/par_exec_multiply_test.cpp.in"
     "${TEST_FILE_PATH}"
   )
@@ -129,6 +103,5 @@ endfunction()
 
 get_property(local_par_exec_multipliers GLOBAL PROPERTY PAR_EXEC_MULTIPLIERS)
 foreach(multiplier IN LISTS local_par_exec_multipliers)
-  message(STATUS "tests/PAR_EXEC_MULTIPLIERS: ${multiplier}")
   generate_par_exec_test(${multiplier})
 endforeach()
