@@ -122,3 +122,55 @@ target_link_libraries(CudaExecutor_benchmark PRIVATE
 target_sources(multiply_benchmark PRIVATE
   $<TARGET_OBJECTS:CudaExecutor_benchmark>
 )
+
+#########
+# ParExec
+#########
+function(generate_par_exec_benchmark multiplier)
+  string(REGEX REPLACE "_[0-9]+" "" LIB_NAME ${multiplier})
+  string(REGEX REPLACE "[_a-zA-Z]" "" TEMPLATE_PARAM ${multiplier})
+  string(REGEX REPLACE "_multiply" "" PAR_EXEC_NAME ${LIB_NAME})
+  if(TEMPLATE_PARAM)
+    set(PAR_EXEC_TYPE "${PAR_EXEC_NAME}<${TEMPLATE_PARAM}>")
+  else()
+    set(PAR_EXEC_TYPE "${PAR_EXEC_NAME}")
+  endif()
+  if(PAR_EXEC_NAME MATCHES "Cuda")
+    set(BENCHMARK_TYPE "PAR_EXEC_CUDA_BENCHMARK")
+    set(HEADER_FILE_EXT "cuh")
+    set(BENCHMARK_FILE_EXT "cu")
+  else()
+    set(BENCHMARK_TYPE "PAR_EXEC_CXX_BENCHMARK")
+    set(HEADER_FILE_EXT "hpp")
+    set(BENCHMARK_FILE_EXT "cpp")
+  endif()
+  set(BENCHMARK_NAME "${PAR_EXEC_NAME}_${TEMPLATE_PARAM}_multiply_benchmark")
+  string(REGEX REPLACE "__" "_" BENCHMARK_NAME ${BENCHMARK_NAME})
+  set(BENCHMARK_FILE_NAME "${BENCHMARK_NAME}.${BENCHMARK_FILE_EXT}")
+  set(BENCHMARK_FILE_PATH
+    "${CMAKE_CURRENT_BINARY_DIR}/generated/${BENCHMARK_FILE_NAME}"
+  )
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/par_exec_multiply_benchmark.cpp.in"
+    "${BENCHMARK_FILE_PATH}"
+  )
+
+  add_library("${BENCHMARK_NAME}" OBJECT "${BENCHMARK_FILE_PATH}")
+  target_include_directories("${BENCHMARK_NAME}" PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+  target_link_libraries("${BENCHMARK_NAME}" PRIVATE
+    benchmark::benchmark
+    ${multiplier}
+  )
+  target_link_libraries(multiply_benchmark PRIVATE
+    ${multiplier}
+  )
+  target_sources(multiply_benchmark PRIVATE
+    $<TARGET_OBJECTS:${BENCHMARK_NAME}>
+  )
+endfunction()
+
+get_property(local_par_exec_multipliers GLOBAL PROPERTY PAR_EXEC_MULTIPLIERS)
+foreach(multiplier IN LISTS local_par_exec_multipliers)
+  generate_par_exec_benchmark(${multiplier})
+endforeach()

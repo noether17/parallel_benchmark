@@ -1,0 +1,63 @@
+#include <benchmark/benchmark.h>
+
+#include "REPEAT.hpp"
+
+// clang-format off
+#include "${multiplier}.${HEADER_FILE_EXT}"
+#define ${BENCHMARK_TYPE}
+
+static void BM_${multiplier}(benchmark::State& state) {
+  auto const N = state.range(0);
+  auto const a = [N] {
+    auto v = std::vector<double>(N);
+    for (auto i = 0; auto& x : v) {
+      x = static_cast<double>(i++) / static_cast<double>(N);
+    }
+    return v;
+  }();
+  auto const b = a;
+  auto c = std::vector<double>(N);
+  ${PAR_EXEC_TYPE} par_exec{};
+
+#ifdef PAR_EXEC_CUDA_BENCHMARK
+  double* dev_a{};
+  cudaMalloc(&dev_a, N * sizeof(double));
+  double* dev_b{};
+  cudaMalloc(&dev_b, N * sizeof(double));
+  double* dev_c{};
+  cudaMalloc(&dev_c, N * sizeof(double));
+  cudaMemcpy(dev_a, a.data(), N * sizeof(double), cudaMemcpyHostToDevice);
+  cudaMemcpy(dev_b, b.data(), N * sizeof(double), cudaMemcpyHostToDevice);
+#endif
+
+  for (auto _ : state) {
+#ifndef PAR_EXEC_CUDA_BENCHMARK
+    REPEAT({
+      auto result_ptr = c.data();
+      ${multiplier}(par_exec, N, a.data(), b.data(), c.data());
+      benchmark::DoNotOptimize(result_ptr);
+      benchmark::ClobberMemory();
+    });
+#else
+    REPEAT({
+      ${multiplier}(par_exec, N, dev_a, dev_b, dev_c);
+    });
+    cudaDeviceSynchronize();
+#endif
+  }
+
+#ifdef PAR_EXEC_CUDA_BENCHMARK
+  cudaFree(dev_c);
+  cudaFree(dev_b);
+  cudaFree(dev_a);
+#endif
+
+  state.SetItemsProcessed(state.iterations() * N * N_REPEAT);
+}
+
+BENCHMARK(BM_${multiplier})
+    ->MeasureProcessCPUTime()
+    ->UseRealTime()
+    ->RangeMultiplier(2)
+    ->Range(1 << 10, 1 << 15);
+// clang-format on
