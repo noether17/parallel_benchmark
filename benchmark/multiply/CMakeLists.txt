@@ -91,38 +91,6 @@ foreach(multiplier IN LISTS local_cuda_device_multipliers)
   generate_multiply_benchmark_for_function(DEVICE "${multiplier}<1024>")
 endforeach()
 
-# Rename to SingleThreadedExecutor_multiply_benchmark when that name is no
-# longer taken.
-add_library(SingleThreadedExecutor_benchmark OBJECT
-  SingleThreadedExecutor_multiply_benchmark.cpp
-)
-target_link_libraries(SingleThreadedExecutor_benchmark PRIVATE
-  benchmark::benchmark
-)
-target_sources(multiply_benchmark PRIVATE
-  $<TARGET_OBJECTS:SingleThreadedExecutor_benchmark>
-)
-
-add_library(ThreadPoolExecutor_benchmark OBJECT
-  ThreadPoolExecutor_multiply_benchmark.cpp
-)
-target_link_libraries(ThreadPoolExecutor_benchmark PRIVATE
-  benchmark::benchmark
-)
-target_sources(multiply_benchmark PRIVATE
-  $<TARGET_OBJECTS:ThreadPoolExecutor_benchmark>
-)
-
-add_library(CudaExecutor_benchmark OBJECT
-  CudaExecutor_multiply_benchmark.cu
-)
-target_link_libraries(CudaExecutor_benchmark PRIVATE
-  benchmark::benchmark
-)
-target_sources(multiply_benchmark PRIVATE
-  $<TARGET_OBJECTS:CudaExecutor_benchmark>
-)
-
 #########
 # ParExec
 #########
