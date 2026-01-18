@@ -12,6 +12,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
   -Wpedantic \
   -Werror \
   -O3 \
+  -march=native \
+  -mtune=native \
   -save-temps \
   -masm=intel"
 )
@@ -30,6 +32,8 @@ set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} \
   -Xcompiler -Wextra \
   -Xcompiler -Werror \
   -Xcompiler -O3 \
+  -Xcompiler -march=native \
+  -Xcompiler -mtune=native \
   -Xcompiler -save-temps \
   -Xcompiler -masm=intel \
   --expt-relaxed-constexpr \
