@@ -14,7 +14,7 @@ static constexpr auto N = 1 << 10;
 using namespace ParODE;
 
 TEST(${TEST_NAME}, ProducesCorrectOutput) {
-  auto exe = ${PAR_EXEC_TYPE}{};
+  auto multiply = ${multiplier}{};
   auto a = std::vector<double>(N);
   auto b = std::vector<double>(N);
   auto c = std::vector<double>(N);
@@ -28,7 +28,7 @@ TEST(${TEST_NAME}, ProducesCorrectOutput) {
   }
 
 #ifndef PAR_EXEC_CUDA_TEST
-  ${multiplier}(exe, N, a.data(), b.data(), c.data());
+  multiply(N, a.data(), b.data(), c.data());
 #else
   double* dev_a = nullptr;
   cudaMalloc(&dev_a, N * sizeof(double));
@@ -39,7 +39,7 @@ TEST(${TEST_NAME}, ProducesCorrectOutput) {
   cudaMemcpy(dev_a, a.data(), N * sizeof(double), cudaMemcpyHostToDevice);
   cudaMemcpy(dev_b, b.data(), N * sizeof(double), cudaMemcpyHostToDevice);
 
-  ${multiplier}(exe, N, dev_a, dev_b, dev_c);
+  multiply(N, dev_a, dev_b, dev_c);
 
   cudaMemcpy(c.data(), dev_c, N * sizeof(double), cudaMemcpyDeviceToHost);
   cudaFree(dev_c);

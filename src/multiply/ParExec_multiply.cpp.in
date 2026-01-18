@@ -1,11 +1,11 @@
+#include "${HEADER_FILE_NAME}"
+
 #include "${PAR_EXEC_HEADER}"
 #include "multiply/par_exec_multiply.hpp"
 
-using namespace ParODE;
-
 // clang-format off
-void ${PAR_EXEC_TOKEN}_multiply(${PAR_EXEC_TYPE}& exe, std::size_t n,
-                                double const* a, double const* b, double* c) {
+void ${PAR_EXEC_TOKEN}_multiply::operator()(std::size_t n, double const* a,
+                                            double const* b, double* c) {
   par_exec_multiply(exe, n, a, b, c);
 }
 // clang-format on

@@ -87,20 +87,20 @@ function(generate_par_exec_multipliers par_exec_type)
   string(REGEX REPLACE "<.*>" "" PAR_EXEC_BASENAME ${PAR_EXEC_TYPE})
   set(PAR_EXEC_HEADER "${PAR_EXEC_BASENAME}.${HEADER_FILE_EXT}")
 
-  # Generate source file.
+  # Generate header file.
   set(SOURCE_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
   set(LIB_NAME "${PAR_EXEC_TOKEN}_multiply")
-  set(SOURCE_FILE_NAME "${LIB_NAME}.${SOURCE_FILE_EXT}")
-  set(SOURCE_FILE_PATH "${SOURCE_FILE_DIR}/${SOURCE_FILE_NAME}")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.cpp.in"
-    "${SOURCE_FILE_PATH}"
-  )
-
-  # Generate header file.
   set(HEADER_FILE_NAME "${LIB_NAME}.${HEADER_FILE_EXT}")
   set(HEADER_FILE_PATH "${SOURCE_FILE_DIR}/${HEADER_FILE_NAME}")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.hpp.in"
     "${HEADER_FILE_PATH}"
+  )
+
+  # Generate source file.
+  set(SOURCE_FILE_NAME "${LIB_NAME}.${SOURCE_FILE_EXT}")
+  set(SOURCE_FILE_PATH "${SOURCE_FILE_DIR}/${SOURCE_FILE_NAME}")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.cpp.in"
+    "${SOURCE_FILE_PATH}"
   )
 
   # Create library.
