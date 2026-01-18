@@ -7,11 +7,12 @@
 
 #include "REPEAT.hpp"
 
-template <auto multiplier>
+template <typename Multiplier>
 struct MultiplyBenchmarker {
   std::vector<double> a{};
   std::vector<double> b{};
   std::vector<double> c{};
+  Multiplier multiplier{};
 
   explicit MultiplyBenchmarker(int n) : a(n), b(n), c(n) {
     for (auto i = 0; auto& x : a) {

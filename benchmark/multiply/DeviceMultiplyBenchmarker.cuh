@@ -3,17 +3,18 @@
 #include "MultiplyBenchmarker.hpp"
 #include "REPEAT.hpp"
 
-template <auto multiplier>
-struct DeviceMultiplyBenchmarker : MultiplyBenchmarker<multiplier> {
-  using MultiplyBenchmarker<multiplier>::a;
-  using MultiplyBenchmarker<multiplier>::b;
-  using MultiplyBenchmarker<multiplier>::c;
+template <typename Multiplier>
+struct DeviceMultiplyBenchmarker : MultiplyBenchmarker<Multiplier> {
+  using MultiplyBenchmarker<Multiplier>::a;
+  using MultiplyBenchmarker<Multiplier>::b;
+  using MultiplyBenchmarker<Multiplier>::c;
+  using MultiplyBenchmarker<Multiplier>::multiplier;
   double* dev_a{};
   double* dev_b{};
   double* dev_c{};
 
   explicit DeviceMultiplyBenchmarker(int n)
-      : MultiplyBenchmarker<multiplier>(n) {
+      : MultiplyBenchmarker<Multiplier>(n) {
     cudaMalloc(&dev_a, n * sizeof(double));
     cudaMalloc(&dev_b, n * sizeof(double));
     cudaMalloc(&dev_c, n * sizeof(double));

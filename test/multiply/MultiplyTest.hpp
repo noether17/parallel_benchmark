@@ -23,8 +23,9 @@ class MultiplyTest : public testing::Test {
     }
   }
 
-  template <auto multiplier>
+  template <typename Multiplier>
   void multiply() {
+    auto multiplier = Multiplier{};
     multiplier(N, a.data(), b.data(), c.data());
   }
 };

@@ -1,4 +1,5 @@
 #pragma once
 
-inline constexpr void warmup_binary(int, double const*, double const*,
-                                    double*) {}
+struct warmup_binary {
+  constexpr void operator()(int, double const*, double const*, double*) {}
+};

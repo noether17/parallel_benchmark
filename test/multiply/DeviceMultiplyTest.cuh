@@ -22,8 +22,9 @@ class DeviceMultiplyTest : public MultiplyTest {
     cudaFree(dev_a);
   }
 
-  template <auto multiplier>
+  template <typename Multiplier>
   void multiply() {
+    auto multiplier = Multiplier{};
     multiplier(N, dev_a, dev_b, dev_c);
     cudaMemcpy(c.data(), dev_c, N * sizeof(double), cudaMemcpyDeviceToHost);
   }
