@@ -111,8 +111,8 @@ function(generate_par_exec_benchmark PAR_EXEC_TYPE)
     set(HEADER_FILE_EXT "hpp")
     set(BENCHMARK_FILE_EXT "cpp")
   endif()
-  set(BENCHMARK_NAME "${PAR_EXEC_NAME}_${PAR_EXEC_TEMPLATE_PARAMS}_multiply_benchmark")
-  string(REGEX REPLACE "__" "_" BENCHMARK_NAME ${BENCHMARK_NAME})
+  set(BENCHMARK_NAME "${multiplier}_benchmark")
+  message(STATUS "BENCHMARK_NAME: ${BENCHMARK_NAME}")
   set(BENCHMARK_FILE_NAME "${BENCHMARK_NAME}.${BENCHMARK_FILE_EXT}")
   set(BENCHMARK_FILE_PATH
     "${CMAKE_CURRENT_BINARY_DIR}/generated/${BENCHMARK_FILE_NAME}"
