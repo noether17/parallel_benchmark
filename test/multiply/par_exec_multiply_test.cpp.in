@@ -3,8 +3,6 @@
 #include <random>
 #include <vector>
 
-#include "multiply/par_exec_multiply.hpp"
-
 // clang-format off
 #include "${MULTIPLIER}.${PAR_EXEC_HEADER_EXT}"
 #define ${TEST_TYPE}
