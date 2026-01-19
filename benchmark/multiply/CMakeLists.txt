@@ -94,7 +94,12 @@ endforeach()
 #########
 # ParExec
 #########
-function(generate_par_exec_benchmark multiplier)
+include("${CMAKE_SOURCE_DIR}/src/get_par_exec_properties.cmake")
+
+function(generate_par_exec_benchmark PAR_EXEC_TYPE)
+  get_par_exec_properties("${PAR_EXEC_TYPE}")
+  set(multiplier "${PAR_EXEC_TOKEN}_multiply")
+
   string(REGEX REPLACE "_[0-9]+" "" LIB_NAME ${multiplier})
   string(REGEX REPLACE "[_a-zA-Z]" "" TEMPLATE_PARAM ${multiplier})
   string(REGEX REPLACE "_multiply" "" PAR_EXEC_NAME ${LIB_NAME})
@@ -138,7 +143,7 @@ function(generate_par_exec_benchmark multiplier)
   )
 endfunction()
 
-get_property(local_par_exec_multipliers GLOBAL PROPERTY PAR_EXEC_MULTIPLIERS)
-foreach(multiplier IN LISTS local_par_exec_multipliers)
-  generate_par_exec_benchmark(${multiplier})
+get_property(TEMP_PARALLEL_EXECUTORS GLOBAL PROPERTY PARALLEL_EXECUTORS)
+foreach(PAR_EXEC IN LISTS TEMP_PARALLEL_EXECUTORS)
+  generate_par_exec_benchmark(${PAR_EXEC})
 endforeach()
