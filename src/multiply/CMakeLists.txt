@@ -98,7 +98,6 @@ function(generate_par_exec_multipliers PAR_EXEC_TYPE)
   endif()
 
   # Remove template parameters to get basename
-  string(REGEX REPLACE "<.*>" "" PAR_EXEC_BASENAME ${PAR_EXEC_TYPE})
   set(PAR_EXEC_HEADER "${PAR_EXEC_BASENAME}.${HEADER_FILE_EXT}")
 
   # Generate header file.
