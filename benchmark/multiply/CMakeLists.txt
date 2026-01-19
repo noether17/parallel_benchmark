@@ -98,23 +98,27 @@ include("${CMAKE_SOURCE_DIR}/src/get_par_exec_properties.cmake")
 
 function(generate_par_exec_benchmark PAR_EXEC_TYPE)
   get_par_exec_properties("${PAR_EXEC_TYPE}")
-  set(MULTIPLIER "${PAR_EXEC_TOKEN}_multiply")
 
+  # Set multiplier and benchmark name.
+  set(MULTIPLIER "${PAR_EXEC_TOKEN}_multiply")
+  set(BENCHMARK_NAME "${MULTIPLIER}_benchmark")
+
+  # Configure benchmark file.
   if(PAR_EXEC_BASENAME MATCHES "Cuda")
     set(BENCHMARK_TYPE "PAR_EXEC_CUDA_BENCHMARK")
   else()
     set(BENCHMARK_TYPE "PAR_EXEC_CXX_BENCHMARK")
   endif()
-  set(BENCHMARK_NAME "${MULTIPLIER}_benchmark")
-  message(STATUS "BENCHMARK_NAME: ${BENCHMARK_NAME}")
   set(BENCHMARK_FILE_NAME "${BENCHMARK_NAME}.${PAR_EXEC_SOURCE_EXT}")
   set(BENCHMARK_FILE_PATH
     "${CMAKE_CURRENT_BINARY_DIR}/generated/${BENCHMARK_FILE_NAME}"
   )
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/par_exec_multiply_benchmark.cpp.in"
+  configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/par_exec_multiply_benchmark.cpp.in"
     "${BENCHMARK_FILE_PATH}"
   )
 
+  # Create the benchmark.
   add_library("${BENCHMARK_NAME}" OBJECT "${BENCHMARK_FILE_PATH}")
   target_include_directories("${BENCHMARK_NAME}" PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -123,6 +127,8 @@ function(generate_par_exec_benchmark PAR_EXEC_TYPE)
     benchmark::benchmark
     ${MULTIPLIER}
   )
+
+  # Link to benchmark main file.
   target_link_libraries(multiply_benchmark PRIVATE
     ${MULTIPLIER}
   )
