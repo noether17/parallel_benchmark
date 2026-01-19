@@ -4,7 +4,7 @@
 #include <vector>
 
 // clang-format off
-#include "${MULTIPLIER}.${PAR_EXEC_HEADER_EXT}"
+#include "${MULTIPLIER_HEADER}"
 #define ${TEST_TYPE}
 
 static constexpr auto N = 1 << 10;

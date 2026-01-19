@@ -77,6 +77,7 @@ function(generate_par_exec_test PAR_EXEC_TYPE)
   set(TEST_NAME "${MULTIPLIER}_test")
 
   # Configure test file.
+  set(MULTIPLIER_HEADER "${MULTIPLIER}.${PAR_EXEC_HEADER_EXT}")
   if(PAR_EXEC_BASENAME MATCHES "Cuda")
     set(TEST_TYPE "PAR_EXEC_CUDA_TEST")
   else()
