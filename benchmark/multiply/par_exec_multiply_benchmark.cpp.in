@@ -3,7 +3,7 @@
 #include "REPEAT.hpp"
 
 // clang-format off
-#include "${multiplier}.${HEADER_FILE_EXT}"
+#include "${multiplier}.${PAR_EXEC_HEADER_EXT}"
 #define ${BENCHMARK_TYPE}
 
 static void BM_${multiplier}(benchmark::State& state) {
