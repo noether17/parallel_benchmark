@@ -14,7 +14,5 @@ foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
     "CudaExecutor<${THREADS_PER_BLOCK}>"
   )
 endforeach()
-get_property(local_parallel_executors GLOBAL PROPERTY PARALLEL_EXECUTORS)
-message(STATUS "PARALLEL_EXECUTORS: ${local_parallel_executors}")
 
 add_subdirectory(multiply)
