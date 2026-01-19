@@ -1,6 +1,5 @@
 #include "${HEADER_FILE_NAME}"
-
-#include "${PAR_EXEC_HEADER}"
+#include "${PAR_EXEC_HEADER_FILE}"
 #include "multiply/par_exec_multiply.hpp"
 
 // clang-format off

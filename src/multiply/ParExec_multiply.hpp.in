@@ -1,7 +1,7 @@
 #pragma once
 
 // clang-format off
-#include "${PAR_EXEC_BASENAME}.${HEADER_FILE_EXT}"
+#include "${PAR_EXEC_HEADER_FILE}"
 
 using namespace ParODE;
 
