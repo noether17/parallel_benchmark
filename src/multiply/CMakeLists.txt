@@ -91,24 +91,24 @@ function(generate_par_exec_multipliers PAR_EXEC_TYPE)
   get_par_exec_properties("${PAR_EXEC_TYPE}")
 
   # Generate header file.
-  set(SOURCE_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+  set(GEN_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
   set(LIB_NAME "${PAR_EXEC_TOKEN}_multiply")
   set(HEADER_FILE_NAME "${LIB_NAME}.${PAR_EXEC_HEADER_EXT}")
-  set(HEADER_FILE_PATH "${SOURCE_FILE_DIR}/${HEADER_FILE_NAME}")
+  set(HEADER_FILE_PATH "${GEN_FILE_DIR}/${HEADER_FILE_NAME}")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.hpp.in"
     "${HEADER_FILE_PATH}"
   )
 
   # Generate source file.
   set(SOURCE_FILE_NAME "${LIB_NAME}.${PAR_EXEC_SOURCE_EXT}")
-  set(SOURCE_FILE_PATH "${SOURCE_FILE_DIR}/${SOURCE_FILE_NAME}")
+  set(SOURCE_FILE_PATH "${GEN_FILE_DIR}/${SOURCE_FILE_NAME}")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.cpp.in"
     "${SOURCE_FILE_PATH}"
   )
 
   # Create library.
   add_library(${LIB_NAME} OBJECT ${SOURCE_FILE_PATH})
-  target_include_directories(${LIB_NAME} INTERFACE ${SOURCE_FILE_DIR})
+  target_include_directories(${LIB_NAME} INTERFACE ${GEN_FILE_DIR})
   set_property(GLOBAL APPEND PROPERTY PAR_EXEC_MULTIPLIERS
     ${LIB_NAME}
   )
