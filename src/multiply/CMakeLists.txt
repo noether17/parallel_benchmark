@@ -97,12 +97,6 @@ function(generate_par_exec_multipliers PAR_EXEC_TYPE)
     set(SOURCE_FILE_EXT cpp)
   endif()
 
-  # Replace template syntax to produce a valid token.
-  string(REGEX REPLACE "<" "_" PAR_EXEC_TOKEN ${PAR_EXEC_TYPE})
-  string(REGEX REPLACE ">" "" PAR_EXEC_TOKEN ${PAR_EXEC_TOKEN})
-  string(REGEX REPLACE "," "_" PAR_EXEC_TOKEN ${PAR_EXEC_TOKEN})
-  string(REGEX REPLACE " " "" PAR_EXEC_TOKEN ${PAR_EXEC_TOKEN})
-
   # Remove template parameters to get basename
   string(REGEX REPLACE "<.*>" "" PAR_EXEC_BASENAME ${PAR_EXEC_TYPE})
   set(PAR_EXEC_HEADER "${PAR_EXEC_BASENAME}.${HEADER_FILE_EXT}")
