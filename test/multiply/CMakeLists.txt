@@ -71,7 +71,7 @@ include("${CMAKE_SOURCE_DIR}/src/get_par_exec_properties.cmake")
 
 function(generate_par_exec_test PAR_EXEC_TYPE)
   get_par_exec_properties("${PAR_EXEC_TYPE}")
-  set(multiplier "${PAR_EXEC_TOKEN}_multiply")
+  set(MULTIPLIER "${PAR_EXEC_TOKEN}_multiply")
 
   if(PAR_EXEC_BASENAME MATCHES "Cuda")
     set(TEST_TYPE "PAR_EXEC_CUDA_TEST")
@@ -92,7 +92,7 @@ function(generate_par_exec_test PAR_EXEC_TYPE)
   target_link_libraries("${TEST_NAME}"
     GTest::GTest
     GTest::Main
-    "${multiplier}"
+    "${MULTIPLIER}"
   )
   add_test(NAME "${TEST_NAME}" COMMAND "${TEST_NAME}")
 endfunction()

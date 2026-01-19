@@ -6,7 +6,7 @@
 #include "multiply/par_exec_multiply.hpp"
 
 // clang-format off
-#include "${multiplier}.${PAR_EXEC_HEADER_EXT}"
+#include "${MULTIPLIER}.${PAR_EXEC_HEADER_EXT}"
 #define ${TEST_TYPE}
 
 static constexpr auto N = 1 << 10;
@@ -14,7 +14,7 @@ static constexpr auto N = 1 << 10;
 using namespace ParODE;
 
 TEST(${TEST_NAME}, ProducesCorrectOutput) {
-  auto multiply = ${multiplier}{};
+  auto multiply = ${MULTIPLIER}{};
   auto a = std::vector<double>(N);
   auto b = std::vector<double>(N);
   auto c = std::vector<double>(N);
