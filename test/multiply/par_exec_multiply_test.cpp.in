@@ -11,8 +11,6 @@
 
 static constexpr auto N = 1 << 10;
 
-using namespace ParODE;
-
 TEST(${TEST_NAME}, ProducesCorrectOutput) {
   auto multiply = ${MULTIPLIER}{};
   auto a = std::vector<double>(N);
