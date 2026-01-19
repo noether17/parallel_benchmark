@@ -98,14 +98,14 @@ include("${CMAKE_SOURCE_DIR}/src/get_par_exec_properties.cmake")
 
 function(generate_par_exec_benchmark PAR_EXEC_TYPE)
   get_par_exec_properties("${PAR_EXEC_TYPE}")
-  set(multiplier "${PAR_EXEC_TOKEN}_multiply")
+  set(MULTIPLIER "${PAR_EXEC_TOKEN}_multiply")
 
   if(PAR_EXEC_BASENAME MATCHES "Cuda")
     set(BENCHMARK_TYPE "PAR_EXEC_CUDA_BENCHMARK")
   else()
     set(BENCHMARK_TYPE "PAR_EXEC_CXX_BENCHMARK")
   endif()
-  set(BENCHMARK_NAME "${multiplier}_benchmark")
+  set(BENCHMARK_NAME "${MULTIPLIER}_benchmark")
   message(STATUS "BENCHMARK_NAME: ${BENCHMARK_NAME}")
   set(BENCHMARK_FILE_NAME "${BENCHMARK_NAME}.${PAR_EXEC_SOURCE_EXT}")
   set(BENCHMARK_FILE_PATH
@@ -121,10 +121,10 @@ function(generate_par_exec_benchmark PAR_EXEC_TYPE)
   )
   target_link_libraries("${BENCHMARK_NAME}" PRIVATE
     benchmark::benchmark
-    ${multiplier}
+    ${MULTIPLIER}
   )
   target_link_libraries(multiply_benchmark PRIVATE
-    ${multiplier}
+    ${MULTIPLIER}
   )
   target_sources(multiply_benchmark PRIVATE
     $<TARGET_OBJECTS:${BENCHMARK_NAME}>

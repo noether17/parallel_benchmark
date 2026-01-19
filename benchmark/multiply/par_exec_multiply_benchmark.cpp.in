@@ -3,11 +3,11 @@
 #include "REPEAT.hpp"
 
 // clang-format off
-#include "${multiplier}.${PAR_EXEC_HEADER_EXT}"
+#include "${MULTIPLIER}.${PAR_EXEC_HEADER_EXT}"
 #define ${BENCHMARK_TYPE}
 
-static void BM_${multiplier}(benchmark::State& state) {
-  auto multiply = ${multiplier}{};
+static void BM_${MULTIPLIER}(benchmark::State& state) {
+  auto multiply = ${MULTIPLIER}{};
   auto const N = state.range(0);
   auto const a = [N] {
     auto v = std::vector<double>(N);
@@ -55,7 +55,7 @@ static void BM_${multiplier}(benchmark::State& state) {
   state.SetItemsProcessed(state.iterations() * N * N_REPEAT);
 }
 
-BENCHMARK(BM_${multiplier})
+BENCHMARK(BM_${MULTIPLIER})
     ->MeasureProcessCPUTime()
     ->UseRealTime()
     ->RangeMultiplier(2)
