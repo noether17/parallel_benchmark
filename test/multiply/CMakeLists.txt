@@ -73,8 +73,6 @@ function(generate_par_exec_test PAR_EXEC_TYPE)
   get_par_exec_properties("${PAR_EXEC_TYPE}")
   set(multiplier "${PAR_EXEC_TOKEN}_multiply")
 
-  string(REGEX REPLACE "_[0-9]+" "" LIB_NAME ${multiplier})
-  message(STATUS "LIB_NAME: ${LIB_NAME}")
   if(PAR_EXEC_BASENAME MATCHES "Cuda")
     set(TEST_TYPE "PAR_EXEC_CUDA_TEST")
   else()
