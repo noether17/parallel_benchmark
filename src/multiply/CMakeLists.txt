@@ -65,9 +65,6 @@ function(generate_par_exec_multipliers PAR_EXEC_TYPE)
   # Create library.
   add_library(${LIB_NAME} OBJECT ${SOURCE_FILE_PATH})
   target_include_directories(${LIB_NAME} INTERFACE ${GEN_FILE_DIR})
-  set_property(GLOBAL APPEND PROPERTY PAR_EXEC_MULTIPLIERS
-    ${LIB_NAME}
-  )
 endfunction()
 
 get_property(TEMP_PARALLEL_EXECUTORS GLOBAL PROPERTY PARALLEL_EXECUTORS)
@@ -75,5 +72,3 @@ foreach(PARALLEL_EXECUTOR IN LISTS TEMP_PARALLEL_EXECUTORS)
   message(STATUS "PARALLEL_EXECUTOR: ${PARALLEL_EXECUTOR}")
   generate_par_exec_multipliers("${PARALLEL_EXECUTOR}")
 endforeach()
-get_property(temp GLOBAL PROPERTY PAR_EXEC_MULTIPLIERS)
-message(STATUS "PAR_EXEC_MULTIPLIERS: ${temp}")
