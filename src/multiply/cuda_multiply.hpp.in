@@ -1,0 +1,8 @@
+#pragma once
+
+// clang-format off
+struct cuda_${THREADS_PER_BLOCK}_multiply {
+  void operator()(std::size_t n, double const* dev_a, double const* dev_b,
+                  double* dev_c);
+};
+// clang-format on

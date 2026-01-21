@@ -38,6 +38,24 @@ foreach(multiplier IN LISTS local_cuda_device_multipliers)
   add_library(${multiplier} OBJECT ${multiplier}.cu)
 endforeach()
 
+foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
+  set(CUDA_MULTIPLIER "cuda_${THREADS_PER_BLOCK}_multiply")
+  set(GEN_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+  set(HEADER_FILE_PATH "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.hpp")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_multiply.hpp.in"
+    "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.hpp"
+  )
+  set(SOURCE_FILE_PATH "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.cu")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_multiply.cu.in"
+    "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.cu"
+  )
+  add_library("${CUDA_MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
+  target_include_directories("${CUDA_MULTIPLIER}" INTERFACE "${GEN_FILE_DIR}")
+  set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${CUDA_MULTIPLIER}")
+endforeach()
+get_property(TEMP_CUDA_MULTIPLIERS GLOBAL PROPERTY CUDA_MULTIPLIERS)
+message(STATUS "TEMP_CUDA_MULTIPLIERS: ${TEMP_CUDA_MULTIPLIERS}")
+
 ########
 #ParExec
 ########
