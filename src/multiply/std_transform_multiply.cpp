@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <functional>
 
-#include "multiply/multiply.hpp"
+#include "std_transform_multiply.hpp"
 
 void std_transform_multiply::operator()(std::size_t n, double const* a,
                                         double const* b, double* c) {

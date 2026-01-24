@@ -1,4 +1,4 @@
-#include "multiply/multiply.hpp"
+#include "single_threaded_multiply.hpp"
 
 void single_threaded_multiply::operator()(std::size_t n, double const* a,
                                           double const* b, double* c) {

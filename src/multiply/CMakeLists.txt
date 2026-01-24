@@ -17,7 +17,7 @@ get_property(TEMP_CXX_MULTIPLIERS GLOBAL PROPERTY
 foreach(MULTIPLIER IN LISTS TEMP_CXX_MULTIPLIERS)
   generate_multiplier_header(${MULTIPLIER})
   add_library(${MULTIPLIER} OBJECT ${MULTIPLIER}.cpp)
-  target_include_directories(${MULTIPLIER} INTERFACE
+  target_include_directories(${MULTIPLIER} PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}/generated"
   )
 endforeach()
@@ -39,7 +39,7 @@ foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
     "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.cu"
   )
   add_library("${CUDA_MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
-  target_include_directories("${CUDA_MULTIPLIER}" INTERFACE "${GEN_FILE_DIR}")
+  target_include_directories("${CUDA_MULTIPLIER}" PUBLIC "${GEN_FILE_DIR}")
   set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${CUDA_MULTIPLIER}")
 endforeach()
 get_property(TEMP_CUDA_MULTIPLIERS GLOBAL PROPERTY CUDA_MULTIPLIERS)

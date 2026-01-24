@@ -2,7 +2,7 @@
 #include <execution>
 #include <functional>
 
-#include "multiply/multiply.hpp"
+#include "par_std_transform_multiply.hpp"
 
 void par_std_transform_multiply::operator()(std::size_t n, double const* a,
                                             double const* b, double* c) {
