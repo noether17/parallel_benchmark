@@ -11,13 +11,13 @@ set_property(GLOBAL PROPERTY CXX_MULTIPLIERS
   std_transform_multiply
   par_std_transform_multiply
 )
-get_property(local_cxx_multipliers GLOBAL PROPERTY
+get_property(TEMP_CXX_MULTIPLIERS GLOBAL PROPERTY
   CXX_MULTIPLIERS
 )
-foreach(multiplier IN LISTS local_cxx_multipliers)
-  generate_multiplier_header(${multiplier})
-  add_library(${multiplier} OBJECT ${multiplier}.cpp)
-  target_include_directories(${multiplier} INTERFACE
+foreach(MULTIPLIER IN LISTS TEMP_CXX_MULTIPLIERS)
+  generate_multiplier_header(${MULTIPLIER})
+  add_library(${MULTIPLIER} OBJECT ${MULTIPLIER}.cpp)
+  target_include_directories(${MULTIPLIER} INTERFACE
     "${CMAKE_CURRENT_BINARY_DIR}/generated"
   )
 endforeach()
@@ -26,28 +26,6 @@ find_package(TBB REQUIRED)
 target_link_libraries(par_std_transform_multiply PRIVATE
   TBB::tbb
 )
-
-# CUDA multiply libraries operating on host data
-set_property(GLOBAL PROPERTY CUDA_HOST_MULTIPLIERS
-  cuda_multiply
-)
-get_property(local_cuda_host_multipliers GLOBAL PROPERTY
-  CUDA_HOST_MULTIPLIERS
-)
-foreach(multiplier IN LISTS local_cuda_host_multipliers)
-  add_library(${multiplier} OBJECT ${multiplier}.cu)
-endforeach()
-
-# CUDA multiply libraries operating on device data
-set_property(GLOBAL PROPERTY CUDA_DEVICE_MULTIPLIERS
-  cuda_device_multiply
-)
-get_property(local_cuda_device_multipliers GLOBAL PROPERTY
-  CUDA_DEVICE_MULTIPLIERS
-)
-foreach(multiplier IN LISTS local_cuda_device_multipliers)
-  add_library(${multiplier} OBJECT ${multiplier}.cu)
-endforeach()
 
 foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
   set(CUDA_MULTIPLIER "cuda_${THREADS_PER_BLOCK}_multiply")
