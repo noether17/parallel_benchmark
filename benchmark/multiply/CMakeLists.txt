@@ -4,13 +4,13 @@ target_link_libraries(multiply_benchmark PRIVATE
   benchmark::benchmark_main
 )
 
-add_library(warmup_binary_benchmark OBJECT warmup_binary_benchmark.cpp)
-target_link_libraries(warmup_binary_benchmark PRIVATE
-  benchmark::benchmark
-)
-target_sources(multiply_benchmark PRIVATE
-  $<TARGET_OBJECTS:warmup_binary_benchmark>
-)
+#add_library(warmup_binary_benchmark OBJECT warmup_binary_benchmark.cpp)
+#target_link_libraries(warmup_binary_benchmark PRIVATE
+#  benchmark::benchmark
+#)
+#target_sources(multiply_benchmark PRIVATE
+#  $<TARGET_OBJECTS:warmup_binary_benchmark>
+#)
 
 function(generate_multiply_benchmark_for_function
          benchmarker_type function_name)
@@ -99,6 +99,10 @@ function(generate_multiplier_benchmark MULTIPLIER)
     $<TARGET_OBJECTS:${BENCHMARK_NAME}>
   )
 endfunction()
+
+add_library(warmup_binary OBJECT "warmup_binary.hpp")
+set_target_properties(warmup_binary PROPERTIES LINKER_LANGUAGE CXX)
+generate_multiplier_benchmark("warmup_binary")
 
 get_property(local_cxx_multipliers GLOBAL PROPERTY CXX_MULTIPLIERS)
 foreach(multiplier IN LISTS local_cxx_multipliers)
