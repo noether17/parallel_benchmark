@@ -44,8 +44,6 @@ function(generate_multiplier_benchmark MULTIPLIER)
   )
 endfunction()
 
-add_library(warmup_binary OBJECT "warmup_binary.hpp")
-set_target_properties(warmup_binary PROPERTIES LINKER_LANGUAGE CXX)
 generate_multiplier_benchmark("warmup_binary")
 
 get_property(local_cxx_multipliers GLOBAL PROPERTY CXX_MULTIPLIERS)
