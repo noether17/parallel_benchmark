@@ -71,26 +71,9 @@ function(generate_multiplier_test MULTIPLIER)
   add_test(NAME "${TEST_NAME}" COMMAND "${TEST_NAME}")
 endfunction()
 
-get_property(local_cxx_multipliers GLOBAL PROPERTY
-  CXX_MULTIPLIERS
-)
+get_property(local_cxx_multipliers GLOBAL PROPERTY CXX_MULTIPLIERS)
 foreach(multiplier IN LISTS local_cxx_multipliers)
-  #generate_multiply_test_for_function(HOST ${multiplier}_test ${multiplier})
   generate_multiplier_test(${multiplier})
-endforeach()
-
-get_property(local_cuda_host_multipliers GLOBAL PROPERTY
-  CUDA_HOST_MULTIPLIERS
-)
-foreach(multiplier IN LISTS local_cuda_host_multipliers)
-  generate_multiply_test_for_function(HOST ${multiplier}_test "${multiplier}<32>")
-endforeach()
-
-get_property(local_cuda_device_multipliers GLOBAL PROPERTY
-  CUDA_DEVICE_MULTIPLIERS
-)
-foreach(multiplier IN LISTS local_cuda_device_multipliers)
-  generate_multiply_test_for_function(DEVICE ${multiplier}_test "${multiplier}<32>")
 endforeach()
 
 get_property(TEMP_CUDA_MULTIPLIERS GLOBAL PROPERTY CUDA_MULTIPLIERS)
