@@ -1,0 +1,9 @@
+#pragma once
+
+#include <cstddef>
+
+// clang-format off
+struct ${MULTIPLIER} {
+  void operator()(std::size_t n, double const* a, double const* b, double* c);
+};
+// clang-format on

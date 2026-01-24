@@ -1,3 +1,10 @@
+function(generate_multiplier_header MULTIPLIER)
+  set(GEN_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/multiply.hpp.in"
+    "${GEN_FILE_DIR}/${MULTIPLIER}.hpp"
+  )
+endfunction()
+
 # C++ multiply libraries
 set_property(GLOBAL PROPERTY CXX_MULTIPLIERS
   single_threaded_multiply
@@ -8,7 +15,11 @@ get_property(local_cxx_multipliers GLOBAL PROPERTY
   CXX_MULTIPLIERS
 )
 foreach(multiplier IN LISTS local_cxx_multipliers)
+  generate_multiplier_header(${multiplier})
   add_library(${multiplier} OBJECT ${multiplier}.cpp)
+  target_include_directories(${multiplier} INTERFACE
+    "${CMAKE_CURRENT_BINARY_DIR}/generated"
+  )
 endforeach()
 
 find_package(TBB REQUIRED)

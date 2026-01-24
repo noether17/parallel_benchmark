@@ -75,8 +75,8 @@ get_property(local_cxx_multipliers GLOBAL PROPERTY
   CXX_MULTIPLIERS
 )
 foreach(multiplier IN LISTS local_cxx_multipliers)
-  generate_multiply_test_for_function(HOST ${multiplier}_test ${multiplier})
-  #generate_multiplier_test(${multiplier})
+  #generate_multiply_test_for_function(HOST ${multiplier}_test ${multiplier})
+  generate_multiplier_test(${multiplier})
 endforeach()
 
 get_property(local_cuda_host_multipliers GLOBAL PROPERTY
