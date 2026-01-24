@@ -21,7 +21,7 @@ function(generate_multiplier_benchmark MULTIPLIER)
     "${CMAKE_CURRENT_BINARY_DIR}/generated/${BENCHMARK_FILE_NAME}"
   )
   configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/par_exec_multiply_benchmark.cpp.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/multiply_benchmark.cpp.in"
     "${BENCHMARK_FILE_PATH}"
   )
 
@@ -80,7 +80,7 @@ function(generate_par_exec_benchmark PAR_EXEC_TYPE)
     "${CMAKE_CURRENT_BINARY_DIR}/generated/${BENCHMARK_FILE_NAME}"
   )
   configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/par_exec_multiply_benchmark.cpp.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/multiply_benchmark.cpp.in"
     "${BENCHMARK_FILE_PATH}"
   )
 

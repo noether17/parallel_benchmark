@@ -12,7 +12,7 @@ function(generate_multiplier_test MULTIPLIER)
   set(TEST_NAME "${MULTIPLIER}_test")
   set(TEST_FILE_NAME "${TEST_NAME}.${SOURCE_FILE_EXT}")
   set(TEST_FILE_PATH "${CMAKE_CURRENT_BINARY_DIR}/generated/${TEST_FILE_NAME}")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/par_exec_multiply_test.cpp.in"
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/multiply_test.cpp.in"
     "${TEST_FILE_PATH}"
   )
 
@@ -57,7 +57,7 @@ function(generate_par_exec_test PAR_EXEC_TYPE)
   endif()
   set(TEST_FILE_NAME "${TEST_NAME}.${PAR_EXEC_SOURCE_EXT}")
   set(TEST_FILE_PATH "${CMAKE_CURRENT_BINARY_DIR}/generated/${TEST_FILE_NAME}")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/par_exec_multiply_test.cpp.in"
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/multiply_test.cpp.in"
     "${TEST_FILE_PATH}"
   )
 
