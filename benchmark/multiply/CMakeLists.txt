@@ -104,7 +104,8 @@ get_property(local_cxx_multipliers GLOBAL PROPERTY
   CXX_MULTIPLIERS
 )
 foreach(multiplier IN LISTS local_cxx_multipliers)
-  generate_multiply_benchmark_for_function(HOST ${multiplier})
+  #generate_multiply_benchmark_for_function(HOST ${multiplier})
+  generate_multiplier_benchmark("${multiplier}")
 endforeach()
 
 get_property(local_cuda_host_multipliers GLOBAL PROPERTY
