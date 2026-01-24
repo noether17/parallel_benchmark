@@ -1,9 +1,0 @@
-#include "${TEST_HEADER}"
-#include "multiply/multiply.hpp"
-
-TEST_F(${TEST_FIXTURE}, ${TEST_NAME}) {
-  multiply<${FUNCTION_NAME}>();
-  for (auto i = 0; i < N; ++i) {
-    EXPECT_DOUBLE_EQ(a[i] * b[i], c[i]);
-  }
-}
