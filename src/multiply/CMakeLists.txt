@@ -29,9 +29,10 @@ target_link_libraries(par_std_transform_multiply PRIVATE
 
 foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
   set(CUDA_MULTIPLIER "cuda_${THREADS_PER_BLOCK}_multiply")
+  set(MULTIPLIER "${CUDA_MULTIPLIER}")
   set(GEN_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
   set(HEADER_FILE_PATH "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.hpp")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_multiply.hpp.in"
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/multiply.hpp.in"
     "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.hpp"
   )
   set(SOURCE_FILE_PATH "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.cu")
