@@ -22,24 +22,21 @@ __global__ void cuda_multiply_kernel(std::size_t n, T const* dev_a,
 }
 
 template <typename CudaMultiplier>
-struct cuda_host_multiply {
-  CudaMultiplier multiplier{};
+void cuda_multiply_host_data(CudaMultiplier& multiplier, std::size_t n,
+                             double const* a, double const* b, double* c) {
+  auto dev_a = static_cast<double*>(nullptr);
+  auto dev_b = static_cast<double*>(nullptr);
+  auto dev_c = static_cast<double*>(nullptr);
+  cudaMalloc(&dev_a, n * sizeof(double));
+  cudaMalloc(&dev_b, n * sizeof(double));
+  cudaMalloc(&dev_c, n * sizeof(double));
+  cudaMemcpy(dev_a, a, n * sizeof(double), cudaMemcpyHostToDevice);
+  cudaMemcpy(dev_b, b, n * sizeof(double), cudaMemcpyHostToDevice);
 
-  void operator()(std::size_t n, double const* a, double const* b, double* c) {
-    auto dev_a = static_cast<double*>(nullptr);
-    auto dev_b = static_cast<double*>(nullptr);
-    auto dev_c = static_cast<double*>(nullptr);
-    cudaMalloc(&dev_a, n * sizeof(double));
-    cudaMalloc(&dev_b, n * sizeof(double));
-    cudaMalloc(&dev_c, n * sizeof(double));
-    cudaMemcpy(dev_a, a, n * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(dev_b, b, n * sizeof(double), cudaMemcpyHostToDevice);
+  multiplier(n, dev_a, dev_b, dev_c);
 
-    multiplier(n, dev_a, dev_b, dev_c);
-
-    cudaMemcpy(c, dev_c, n * sizeof(double), cudaMemcpyHostToDevice);
-    cudaFree(dev_c);
-    cudaFree(dev_b);
-    cudaFree(dev_a);
-  }
-};
+  cudaMemcpy(c, dev_c, n * sizeof(double), cudaMemcpyHostToDevice);
+  cudaFree(dev_c);
+  cudaFree(dev_b);
+  cudaFree(dev_a);
+}

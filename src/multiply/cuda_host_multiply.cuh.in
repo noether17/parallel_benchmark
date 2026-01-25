@@ -1,8 +1,0 @@
-#pragma once
-
-#include "${CUDA_MULTIPLIER}.hpp"
-#include "cuda_multiply.cuh"
-
-// clang-format off
-using ${HOST_CUDA_MULTIPLIER} = cuda_host_multiply<${CUDA_MULTIPLIER}>;
-// clang-format on

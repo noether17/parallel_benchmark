@@ -85,15 +85,23 @@ endforeach()
 foreach(CUDA_MULTIPLIER IN LISTS TEMP_CUDA_MULTIPLIERS)
   set(HOST_CUDA_MULTIPLIER "host_${CUDA_MULTIPLIER}")
   set(GEN_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
-  set(HEADER_FILE_NAME "${HOST_CUDA_MULTIPLIER}.cuh")
+  set(HEADER_FILE_NAME "${HOST_CUDA_MULTIPLIER}.hpp")
   set(HEADER_FILE_PATH "${GEN_FILE_DIR}/${HEADER_FILE_NAME}")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_host_multiply.cuh.in"
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_host_multiply.hpp.in"
     "${HEADER_FILE_PATH}"
   )
 
-  add_library("${HOST_CUDA_MULTIPLIER}" OBJECT "${HEADER_FILE_PATH}")
-  set_target_properties("${HOST_CUDA_MULTIPLIER}" PROPERTIES LINKER_LANGUAGE
-    CUDA
+  set(SOURCE_FILE_NAME "${HOST_CUDA_MULTIPLIER}.cu")
+  set(SOURCE_FILE_PATH "${GEN_FILE_DIR}/${SOURCE_FILE_NAME}")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_host_multiply.cu.in"
+    "${SOURCE_FILE_PATH}"
+  )
+
+  add_library("${HOST_CUDA_MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
+  target_include_directories("${HOST_CUDA_MULTIPLIER}" PUBLIC "${GEN_FILE_DIR}")
+  target_link_libraries("${HOST_CUDA_MULTIPLIER}" PUBLIC "${CUDA_MULTIPLIER}")
+  target_sources("${HOST_CUDA_MULTIPLIER}" PUBLIC
+    $<TARGET_OBJECTS:${CUDA_MULTIPLIER}>
   )
   set_property(GLOBAL APPEND PROPERTY HOST_CUDA_MULTIPLIERS
     "${HOST_CUDA_MULTIPLIER}"
