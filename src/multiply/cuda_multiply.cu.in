@@ -1,10 +1,9 @@
+#include "${MULTIPLIER}.hpp"
 #include "multiply/cuda_multiply.cuh"
 
 // clang-format off
-#include "${CUDA_MULTIPLIER}.hpp"
-
-void ${CUDA_MULTIPLIER}::operator()(std::size_t n, double const* dev_a,
-                                    double const* dev_b, double* dev_c) {
+void ${MULTIPLIER}::operator()(std::size_t n, double const* dev_a,
+                               double const* dev_b, double* dev_c) {
   auto blocks_per_grid = quotient_ceiling(n, ${THREADS_PER_BLOCK});
   cuda_multiply_kernel<<<blocks_per_grid, ${THREADS_PER_BLOCK}>>>(n, dev_a,
                                                                   dev_b, dev_c);

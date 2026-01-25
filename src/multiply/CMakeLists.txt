@@ -28,20 +28,19 @@ target_link_libraries(par_std_transform_multiply PRIVATE
 )
 
 foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
-  set(CUDA_MULTIPLIER "cuda_${THREADS_PER_BLOCK}_multiply")
-  set(MULTIPLIER "${CUDA_MULTIPLIER}")
+  set(MULTIPLIER "cuda_${THREADS_PER_BLOCK}_multiply")
   set(GEN_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
-  set(HEADER_FILE_PATH "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.hpp")
+  set(HEADER_FILE_PATH "${GEN_FILE_DIR}/${MULTIPLIER}.hpp")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/multiply.hpp.in"
-    "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.hpp"
+    "${GEN_FILE_DIR}/${MULTIPLIER}.hpp"
   )
-  set(SOURCE_FILE_PATH "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.cu")
+  set(SOURCE_FILE_PATH "${GEN_FILE_DIR}/${MULTIPLIER}.cu")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_multiply.cu.in"
-    "${GEN_FILE_DIR}/${CUDA_MULTIPLIER}.cu"
+    "${GEN_FILE_DIR}/${MULTIPLIER}.cu"
   )
-  add_library("${CUDA_MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
-  target_include_directories("${CUDA_MULTIPLIER}" PUBLIC "${GEN_FILE_DIR}")
-  set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${CUDA_MULTIPLIER}")
+  add_library("${MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
+  target_include_directories("${MULTIPLIER}" PUBLIC "${GEN_FILE_DIR}")
+  set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${MULTIPLIER}")
 endforeach()
 get_property(TEMP_CUDA_MULTIPLIERS GLOBAL PROPERTY CUDA_MULTIPLIERS)
 message(STATUS "TEMP_CUDA_MULTIPLIERS: ${TEMP_CUDA_MULTIPLIERS}")
