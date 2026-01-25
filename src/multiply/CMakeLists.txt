@@ -45,9 +45,9 @@ endforeach()
 get_property(TEMP_CUDA_MULTIPLIERS GLOBAL PROPERTY CUDA_MULTIPLIERS)
 message(STATUS "TEMP_CUDA_MULTIPLIERS: ${TEMP_CUDA_MULTIPLIERS}")
 
-########
-#ParExec
-########
+#########
+# ParExec
+#########
 include("${CMAKE_SOURCE_DIR}/src/get_par_exec_properties.cmake")
 
 function(generate_par_exec_multipliers PAR_EXEC_TYPE)
@@ -78,3 +78,26 @@ get_property(TEMP_PARALLEL_EXECUTORS GLOBAL PROPERTY PARALLEL_EXECUTORS)
 foreach(PARALLEL_EXECUTOR IN LISTS TEMP_PARALLEL_EXECUTORS)
   generate_par_exec_multipliers("${PARALLEL_EXECUTOR}")
 endforeach()
+
+#######################
+# Cuda Host Multipliers
+#######################
+foreach(CUDA_MULTIPLIER IN LISTS TEMP_CUDA_MULTIPLIERS)
+  set(HOST_CUDA_MULTIPLIER "host_${CUDA_MULTIPLIER}")
+  set(GEN_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+  set(HEADER_FILE_NAME "${HOST_CUDA_MULTIPLIER}.cuh")
+  set(HEADER_FILE_PATH "${GEN_FILE_DIR}/${HEADER_FILE_NAME}")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_host_multiply.cuh.in"
+    "${HEADER_FILE_PATH}"
+  )
+
+  add_library("${HOST_CUDA_MULTIPLIER}" OBJECT "${HEADER_FILE_PATH}")
+  set_target_properties("${HOST_CUDA_MULTIPLIER}" PROPERTIES LINKER_LANGUAGE
+    CUDA
+  )
+  set_property(GLOBAL APPEND PROPERTY HOST_CUDA_MULTIPLIERS
+    "${HOST_CUDA_MULTIPLIER}"
+  )
+endforeach()
+get_property(TEMP_HOST_CUDA_MULTIPLIERS GLOBAL PROPERTY HOST_CUDA_MULTIPLIERS)
+message(STATUS "TEMP_HOST_CUDA_MULTIPLIERS: ${TEMP_HOST_CUDA_MULTIPLIERS}")
