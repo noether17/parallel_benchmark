@@ -56,6 +56,11 @@ foreach(CUDA_MULTIPLIER IN LISTS TEMP_CUDA_MULTIPLIERS)
   generate_multiplier_benchmark("${CUDA_MULTIPLIER}")
 endforeach()
 
+get_property(TEMP_HOST_CUDA_MULTIPLIERS GLOBAL PROPERTY HOST_CUDA_MULTIPLIERS)
+foreach(HOST_CUDA_MULTIPLIER IN LISTS TEMP_HOST_CUDA_MULTIPLIERS)
+  generate_multiplier_benchmark("${HOST_CUDA_MULTIPLIER}")
+endforeach()
+
 #########
 # ParExec
 #########
