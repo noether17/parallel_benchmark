@@ -62,27 +62,13 @@ foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
   set(MULTIPLIER "cuda_${THREADS_PER_BLOCK}_multiply")
   message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
-
-  # Generate header file.
-  set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
-  set(HEADER_FILE_PATH "${GENERATED_FILE_DIR}/${HEADER_FILE_NAME}")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/multiply.hpp.in"
-    "${HEADER_FILE_PATH}"
-  )
-
-  # Generate source file.
-  set(SOURCE_FILE_PATH "${GENERATED_FILE_DIR}/${MULTIPLIER}.cu")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_multiply.cu.in"
-    "${SOURCE_FILE_PATH}"
-  )
-
-  # Create the library.
-  target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
-  target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_FILE_NAME "${HEADER_FILE_NAME}"
+    HEADER_FILE_NAME "${MULTIPLIER}.hpp"
+    HEADER_TEMPLATE_NAME "multiply.hpp.in"
+    SOURCE_FILE_NAME "${MULTIPLIER}.cu"
+    SOURCE_TEMPLATE_NAME "cuda_multiply.cu.in"
   )
-  set_property(GLOBAL APPEND PROPERTY MULTIPLIERS "${MULTIPLIER}")
+  create_library("${MULTIPLIER}")
   set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${MULTIPLIER}")
 endforeach()
 
