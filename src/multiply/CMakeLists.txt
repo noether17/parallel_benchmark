@@ -75,10 +75,8 @@ foreach(PARALLEL_EXECUTOR IN LISTS LOCAL_PARALLEL_EXECUTORS)
   message(STATUS "Creating library for ${MULTIPLIER}.")
 
   # Generate header file.
-  set(HEADER_FILE_NAME "${MULTIPLIER}.${PAR_EXEC_HEADER_EXT}")
-  set(HEADER_FILE_PATH
-    "${GENERATED_FILE_DIR}/${MULTIPLIER}.${PAR_EXEC_HEADER_EXT}"
-  )
+  set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
+  set(HEADER_FILE_PATH "${GENERATED_FILE_DIR}/${HEADER_FILE_NAME}")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.hpp.in"
     "${HEADER_FILE_PATH}"
   )

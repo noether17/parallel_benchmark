@@ -10,13 +10,8 @@ function(generate_multiplier_test MULTIPLIER)
       set(MULTIPLIER_HEADER "${MULTIPLIER}.cuh")
     endif()
   else()
-    if("${MULTIPLIER}" MATCHES "^host_CudaExecutor.*")
-      set(TEST_TYPE "HOST_CUDA_TEST") # TODO: host_CudaExecutor tests should not need to be .cu; fix the CudaExecutor headers.
-      set(SOURCE_FILE_EXT "cu")
-    else()
-      set(TEST_TYPE "CXX_TEST")
-      set(SOURCE_FILE_EXT "cpp")
-    endif()
+    set(TEST_TYPE "CXX_TEST")
+    set(SOURCE_FILE_EXT "cpp")
   endif()
 
   # Set test info.
