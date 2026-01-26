@@ -128,7 +128,6 @@ foreach(CUDA_MULTIPLIER IN LISTS LOCAL_CUDA_MULTIPLIERS)
 
   # Create the library.
   target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
-  target_sources("${MULTIPLIER}" PRIVATE $<TARGET_OBJECTS:${CUDA_MULTIPLIER}>)
   target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
   target_link_libraries("${MULTIPLIER}" PUBLIC "${CUDA_MULTIPLIER}")
   set_property(GLOBAL APPEND PROPERTY MULTIPLIERS "${MULTIPLIER}")
