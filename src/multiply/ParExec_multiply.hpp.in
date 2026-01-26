@@ -1,7 +1,14 @@
 #pragma once
 
+#include <cstddef>
+
 // clang-format off
+#define ${PAR_EXEC_BASENAME}
+#ifdef ThreadPoolExecutorTemplate
+#undef ${PAR_EXEC_BASENAME}
 #include "${PAR_EXEC_HEADER_FILE}"
+#endif
+#undef ${PAR_EXEC_BASENAME}
 
 struct ${MULTIPLIER} {
 #define ${PAR_EXEC_BASENAME}
