@@ -5,8 +5,8 @@
 
 using namespace ParODE;
 
-struct ${PAR_EXEC_TOKEN}_multiply {
-  ${PAR_EXEC_TYPE} exe{};
+struct ${MULTIPLIER} {
+  ${PARALLEL_EXECUTOR} exe{};
   void operator()(std::size_t n, double const* a, double const* b, double* c);
 };
 // clang-format on

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "${CUDA_MULTIPLIER}.hpp"
+#include "${CUDA_MULTIPLIER_HEADER}"
 
 // clang-format off
-struct ${HOST_CUDA_MULTIPLIER} {
+struct ${MULTIPLIER} {
   ${CUDA_MULTIPLIER} multiplier{};
 
   void operator()(std::size_t n, double const* a, double const* b, double* c);

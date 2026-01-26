@@ -1,9 +1,9 @@
-#include "${HOST_CUDA_MULTIPLIER}.hpp"
+#include "${MULTIPLIER}.hpp"
 #include "multiply/cuda_multiply.cuh"
 
 // clang-format off
-void ${HOST_CUDA_MULTIPLIER}::operator()(std::size_t n, double const* a,
-                                         double const* b, double* c) {
+void ${MULTIPLIER}::operator()(std::size_t n, double const* a, double const* b,
+                               double* c) {
   cuda_multiply_host_data(multiplier, n, a, b, c);
 }
 // clang-format on
