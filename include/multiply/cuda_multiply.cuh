@@ -35,7 +35,7 @@ void cuda_multiply_host_data(CudaMultiplier& multiplier, std::size_t n,
 
   multiplier(n, dev_a, dev_b, dev_c);
 
-  cudaMemcpy(c, dev_c, n * sizeof(double), cudaMemcpyHostToDevice);
+  cudaMemcpy(c, dev_c, n * sizeof(double), cudaMemcpyDeviceToHost);
   cudaFree(dev_c);
   cudaFree(dev_b);
   cudaFree(dev_a);
