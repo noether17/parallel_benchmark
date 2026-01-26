@@ -30,14 +30,12 @@ function(create_library MULTIPLIER)
 endfunction()
 
 # Standalone C++ libraries
-set_property(GLOBAL PROPERTY CXX_MULTIPLIERS
+set(CXX_MULTIPLIERS
   single_threaded_multiply
   std_transform_multiply
   par_std_transform_multiply
 )
-get_property(LOCAL_CXX_MULTIPLIERS GLOBAL PROPERTY CXX_MULTIPLIERS)
-foreach(MULTIPLIER IN LISTS LOCAL_CXX_MULTIPLIERS)
-  message(STATUS "Creating library for ${MULTIPLIER}.")
+foreach(MULTIPLIER IN LISTS CXX_MULTIPLIERS)
   add_library("${MULTIPLIER}" STATIC)
   set_target_properties("${MULTIPLIER}" PROPERTIES
     HEADER_TEMPLATE_NAME "multiply.hpp.in"
@@ -57,7 +55,6 @@ target_link_libraries(par_std_transform_multiply PRIVATE TBB::tbb)
 # Generate cuda multipliers with varying threads per block.
 foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
   set(MULTIPLIER "cuda_${THREADS_PER_BLOCK}_multiply")
-  message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
   set_target_properties("${MULTIPLIER}" PROPERTIES
     HEADER_TEMPLATE_NAME "multiply.hpp.in"
@@ -75,7 +72,6 @@ get_property(LOCAL_PARALLEL_EXECUTORS GLOBAL PROPERTY PARALLEL_EXECUTORS)
 foreach(PARALLEL_EXECUTOR IN LISTS LOCAL_PARALLEL_EXECUTORS)
   get_par_exec_properties("${PARALLEL_EXECUTOR}")
   set(MULTIPLIER "${PAR_EXEC_TOKEN}_multiply")
-  message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
   if("${MULTIPLIER}" MATCHES "^Cuda.*")
     set(MULTIPLIER_TYPE "CUDA_MULTIPLIER")
@@ -98,7 +94,6 @@ endforeach()
 get_property(LOCAL_CUDA_MULTIPLIERS GLOBAL PROPERTY CUDA_MULTIPLIERS)
 foreach(CUDA_MULTIPLIER IN LISTS LOCAL_CUDA_MULTIPLIERS)
   set(MULTIPLIER "host_${CUDA_MULTIPLIER}")
-  message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
   set(CUDA_MULTIPLIER_HEADER "${CUDA_MULTIPLIER}.hpp")
   set_target_properties("${MULTIPLIER}" PROPERTIES
