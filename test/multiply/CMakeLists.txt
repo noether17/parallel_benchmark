@@ -1,14 +1,8 @@
 function(generate_multiplier_test MULTIPLIER)
-  message(STATUS "Generating test for ${MULTIPLIER}.")
-
-  # Get multiplier info. # TODO: Replace string matching with target properties.
+  # Get multiplier info.
   set(MULTIPLIER_HEADER "${MULTIPLIER}.hpp")
   get_target_property(SOURCE_FILE_EXT "${MULTIPLIER}" SOURCE_FILE_EXT)
-  if("${MULTIPLIER}" MATCHES "^[cC]uda.*")
-    set(TEST_TYPE "PAR_EXEC_CUDA_TEST") # TODO: Replace this name.
-  else()
-    set(TEST_TYPE "CXX_TEST")
-  endif()
+  get_target_property(MULTIPLIER_TYPE "${MULTIPLIER}" MULTIPLIER_TYPE)
 
   # Set test info.
   set(TEST_NAME "${MULTIPLIER}_test")
@@ -27,6 +21,7 @@ function(generate_multiplier_test MULTIPLIER)
   )
   add_test(NAME "${TEST_NAME}" COMMAND "${TEST_NAME}")
 endfunction()
+
 get_property(LOCAL_MULTIPLIERS GLOBAL PROPERTY MULTIPLIERS)
 foreach(MULTIPLIER IN LISTS LOCAL_MULTIPLIERS)
   generate_multiplier_test("${MULTIPLIER}")

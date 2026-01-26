@@ -4,8 +4,8 @@
 
 // clang-format off
 #include "${MULTIPLIER_HEADER}"
-#define ${BENCHMARK_TYPE}
-#ifdef PAR_EXEC_CUDA_BENCHMARK
+#define ${MULTIPLIER_TYPE}
+#ifdef CUDA_MULTIPLIER
 #include "multiply/cuda_multiply.cuh"
 #endif
 
@@ -22,7 +22,7 @@ static void BM_${MULTIPLIER}(benchmark::State& state) {
   auto const b = a;
   auto c = std::vector<double>(N);
 
-#ifdef PAR_EXEC_CUDA_BENCHMARK
+#ifdef CUDA_MULTIPLIER
   cuda_multiply_host_data(
       [&](std::size_t n, double const* dev_a, double const* dev_b,
           double* dev_c) {

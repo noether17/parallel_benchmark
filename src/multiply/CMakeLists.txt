@@ -5,13 +5,9 @@ set(GENERATED_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 #############################
 
 function(create_library MULTIPLIER)
-  # Required properties.
   get_target_property(HEADER_TEMPLATE_NAME "${MULTIPLIER}" HEADER_TEMPLATE_NAME)
   get_target_property(SOURCE_TEMPLATE_NAME "${MULTIPLIER}" SOURCE_TEMPLATE_NAME)
   get_target_property(SOURCE_FILE_EXT "${MULTIPLIER}" SOURCE_FILE_EXT)
-
-  # Optional properties (used in configuring specific template files).
-  # TODO
 
   # Generate header file.
   set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
@@ -47,6 +43,7 @@ foreach(MULTIPLIER IN LISTS LOCAL_CXX_MULTIPLIERS)
     HEADER_TEMPLATE_NAME "multiply.hpp.in"
     SOURCE_TEMPLATE_NAME "${MULTIPLIER}.cpp"
     SOURCE_FILE_EXT "cpp"
+    MULTIPLIER_TYPE "CXX_MULTIPLIER"
   )
   create_library("${MULTIPLIER}")
 endforeach()
@@ -66,6 +63,7 @@ foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
     HEADER_TEMPLATE_NAME "multiply.hpp.in"
     SOURCE_TEMPLATE_NAME "cuda_multiply.cu.in"
     SOURCE_FILE_EXT "cu"
+    MULTIPLIER_TYPE "CUDA_MULTIPLIER"
   )
   create_library("${MULTIPLIER}")
   set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${MULTIPLIER}")
@@ -79,10 +77,16 @@ foreach(PARALLEL_EXECUTOR IN LISTS LOCAL_PARALLEL_EXECUTORS)
   set(MULTIPLIER "${PAR_EXEC_TOKEN}_multiply")
   message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
+  if("${MULTIPLIER}" MATCHES "^Cuda.*")
+    set(MULTIPLIER_TYPE "CUDA_MULTIPLIER")
+  else()
+    set(MULTIPLIER_TYPE "CXX_MULTIPLIER")
+  endif()
   set_target_properties("${MULTIPLIER}" PROPERTIES
     HEADER_TEMPLATE_NAME "ParExec_multiply.hpp.in"
     SOURCE_TEMPLATE_NAME "ParExec_multiply.cpp.in"
     SOURCE_FILE_EXT "${PAR_EXEC_SOURCE_EXT}"
+    MULTIPLIER_TYPE "${MULTIPLIER_TYPE}"
   )
   create_library("${MULTIPLIER}")
   if("${MULTIPLIER}" MATCHES "^CudaExecutor.*")
@@ -101,6 +105,7 @@ foreach(CUDA_MULTIPLIER IN LISTS LOCAL_CUDA_MULTIPLIERS)
     HEADER_TEMPLATE_NAME "cuda_host_multiply.hpp.in"
     SOURCE_TEMPLATE_NAME "cuda_host_multiply.cu.in"
     SOURCE_FILE_EXT "cu"
+    MULTIPLIER_TYPE "HOST_CUDA_MULTIPLIER"
   )
   create_library("${MULTIPLIER}")
   target_link_libraries("${MULTIPLIER}" PUBLIC "${CUDA_MULTIPLIER}")

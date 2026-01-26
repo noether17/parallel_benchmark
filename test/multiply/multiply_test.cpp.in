@@ -5,8 +5,8 @@
 
 // clang-format off
 #include "${MULTIPLIER_HEADER}"
-#define ${TEST_TYPE}
-#ifdef PAR_EXEC_CUDA_TEST
+#define ${MULTIPLIER_TYPE}
+#ifdef CUDA_MULTIPLIER
 #include "multiply/cuda_multiply.cuh"
 #endif
 
@@ -26,10 +26,10 @@ TEST(${TEST_NAME}, ProducesCorrectOutput) {
     y = dist(gen);
   }
 
-#ifndef PAR_EXEC_CUDA_TEST
-  multiply(N, a.data(), b.data(), c.data());
-#else
+#ifdef CUDA_MULTIPLIER
   cuda_multiply_host_data(multiply, N, a.data(), b.data(), c.data());
+#else
+  multiply(N, a.data(), b.data(), c.data());
 #endif
 
   for (auto i = 0; i < N; ++i) {
