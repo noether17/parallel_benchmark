@@ -13,6 +13,7 @@ set_property(GLOBAL PROPERTY CXX_MULTIPLIERS
 get_property(LOCAL_CXX_MULTIPLIERS GLOBAL PROPERTY CXX_MULTIPLIERS)
 foreach(MULTIPLIER IN LISTS LOCAL_CXX_MULTIPLIERS)
   message(STATUS "Creating library for ${MULTIPLIER}.")
+  add_library("${MULTIPLIER}" STATIC)
   # Generate header file.
   set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
   set(HEADER_FILE_PATH "${GENERATED_FILE_DIR}/${HEADER_FILE_NAME}")
@@ -24,7 +25,7 @@ foreach(MULTIPLIER IN LISTS LOCAL_CXX_MULTIPLIERS)
   set(SOURCE_FILE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/${MULTIPLIER}.cpp")
 
   # Create the library.
-  add_library("${MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
+  target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
   target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
   set_target_properties("${MULTIPLIER}" PROPERTIES
     HEADER_FILE_NAME "${HEADER_FILE_NAME}"
@@ -42,6 +43,7 @@ target_link_libraries(par_std_transform_multiply PRIVATE TBB::tbb)
 foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
   set(MULTIPLIER "cuda_${THREADS_PER_BLOCK}_multiply")
   message(STATUS "Creating library for ${MULTIPLIER}.")
+  add_library("${MULTIPLIER}" STATIC)
 
   # Generate header file.
   set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
@@ -57,7 +59,7 @@ foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
   )
 
   # Create the library.
-  add_library("${MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
+  target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
   target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
   set_target_properties("${MULTIPLIER}" PROPERTIES
     HEADER_FILE_NAME "${HEADER_FILE_NAME}"
@@ -73,6 +75,7 @@ foreach(PARALLEL_EXECUTOR IN LISTS LOCAL_PARALLEL_EXECUTORS)
   get_par_exec_properties("${PARALLEL_EXECUTOR}")
   set(MULTIPLIER "${PAR_EXEC_TOKEN}_multiply")
   message(STATUS "Creating library for ${MULTIPLIER}.")
+  add_library("${MULTIPLIER}" STATIC)
 
   # Generate header file.
   set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
@@ -90,7 +93,7 @@ foreach(PARALLEL_EXECUTOR IN LISTS LOCAL_PARALLEL_EXECUTORS)
   )
 
   # Create the library.
-  add_library("${MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
+  target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
   target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
   set_target_properties("${MULTIPLIER}" PROPERTIES
     HEADER_FILE_NAME "${HEADER_FILE_NAME}"
@@ -106,6 +109,7 @@ get_property(LOCAL_CUDA_MULTIPLIERS GLOBAL PROPERTY CUDA_MULTIPLIERS)
 foreach(CUDA_MULTIPLIER IN LISTS LOCAL_CUDA_MULTIPLIERS)
   set(MULTIPLIER "host_${CUDA_MULTIPLIER}")
   message(STATUS "Creating library for ${MULTIPLIER}.")
+  add_library("${MULTIPLIER}" STATIC)
 
   # Generate header file.
   get_target_property(CUDA_MULTIPLIER_HEADER "${CUDA_MULTIPLIER}"
@@ -123,9 +127,9 @@ foreach(CUDA_MULTIPLIER IN LISTS LOCAL_CUDA_MULTIPLIERS)
   )
 
   # Create the library.
-  add_library("${MULTIPLIER}" OBJECT "${SOURCE_FILE_PATH}")
+  target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
+  target_sources("${MULTIPLIER}" PRIVATE $<TARGET_OBJECTS:${CUDA_MULTIPLIER}>)
   target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
   target_link_libraries("${MULTIPLIER}" PUBLIC "${CUDA_MULTIPLIER}")
-  target_sources("${MULTIPLIER}" PUBLIC $<TARGET_OBJECTS:${CUDA_MULTIPLIER}>)
   set_property(GLOBAL APPEND PROPERTY MULTIPLIERS "${MULTIPLIER}")
 endforeach()
