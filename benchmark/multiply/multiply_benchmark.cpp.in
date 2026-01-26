@@ -5,6 +5,9 @@
 // clang-format off
 #include "${MULTIPLIER_HEADER}"
 #define ${BENCHMARK_TYPE}
+#ifdef PAR_EXEC_CUDA_BENCHMARK
+#include "multiply/cuda_multiply.cuh"
+#endif
 
 static void BM_${MULTIPLIER}(benchmark::State& state) {
   auto multiply = ${MULTIPLIER}{};
@@ -20,36 +23,26 @@ static void BM_${MULTIPLIER}(benchmark::State& state) {
   auto c = std::vector<double>(N);
 
 #ifdef PAR_EXEC_CUDA_BENCHMARK
-  double* dev_a{};
-  cudaMalloc(&dev_a, N * sizeof(double));
-  double* dev_b{};
-  cudaMalloc(&dev_b, N * sizeof(double));
-  double* dev_c{};
-  cudaMalloc(&dev_c, N * sizeof(double));
-  cudaMemcpy(dev_a, a.data(), N * sizeof(double), cudaMemcpyHostToDevice);
-  cudaMemcpy(dev_b, b.data(), N * sizeof(double), cudaMemcpyHostToDevice);
-#endif
-
+  cuda_multiply_host_data(
+      [&](std::size_t n, double const* dev_a, double const* dev_b,
+          double* dev_c) {
+        for (auto _ : state) {
+          REPEAT({
+            multiply(n, dev_a, dev_b, dev_c);
+          });
+          cudaDeviceSynchronize();
+        }
+      },
+      N, a.data(), b.data(), c.data());
+#else
   for (auto _ : state) {
-#ifndef PAR_EXEC_CUDA_BENCHMARK
     REPEAT({
       auto result_ptr = c.data();
       multiply(N, a.data(), b.data(), c.data());
       benchmark::DoNotOptimize(result_ptr);
       benchmark::ClobberMemory();
     });
-#else
-    REPEAT({
-      multiply(N, dev_a, dev_b, dev_c);
-    });
-    cudaDeviceSynchronize();
-#endif
   }
-
-#ifdef PAR_EXEC_CUDA_BENCHMARK
-  cudaFree(dev_c);
-  cudaFree(dev_b);
-  cudaFree(dev_a);
 #endif
 
   state.SetItemsProcessed(state.iterations() * N * N_REPEAT);

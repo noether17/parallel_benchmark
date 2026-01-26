@@ -22,7 +22,7 @@ __global__ void cuda_multiply_kernel(std::size_t n, T const* dev_a,
 }
 
 template <typename CudaMultiplier>
-void cuda_multiply_host_data(CudaMultiplier& multiplier, std::size_t n,
+void cuda_multiply_host_data(CudaMultiplier&& multiplier, std::size_t n,
                              double const* a, double const* b, double* c) {
   auto dev_a = static_cast<double*>(nullptr);
   auto dev_b = static_cast<double*>(nullptr);
