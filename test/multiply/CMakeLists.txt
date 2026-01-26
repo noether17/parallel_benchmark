@@ -3,12 +3,11 @@ function(generate_multiplier_test MULTIPLIER)
 
   # Get multiplier info. # TODO: Replace string matching with target properties.
   set(MULTIPLIER_HEADER "${MULTIPLIER}.hpp")
+  get_target_property(SOURCE_FILE_EXT "${MULTIPLIER}" SOURCE_FILE_EXT)
   if("${MULTIPLIER}" MATCHES "^[cC]uda.*")
     set(TEST_TYPE "PAR_EXEC_CUDA_TEST") # TODO: Replace this name.
-    set(SOURCE_FILE_EXT "cu")
   else()
     set(TEST_TYPE "CXX_TEST")
-    set(SOURCE_FILE_EXT "cpp")
   endif()
 
   # Set test info.

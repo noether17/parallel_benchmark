@@ -7,12 +7,11 @@ target_link_libraries(multiply_benchmark PRIVATE
 function(generate_multiplier_benchmark MULTIPLIER)
   #message(STATUS "MULTIPLIER: ${MULTIPLIER}")
   set(MULTIPLIER_HEADER "${MULTIPLIER}.hpp")
+  get_target_property(SOURCE_FILE_EXT "${MULTIPLIER}" SOURCE_FILE_EXT)
   if ("${MULTIPLIER}" MATCHES "^[cC]uda.*")
     set(BENCHMARK_TYPE "PAR_EXEC_CUDA_BENCHMARK") # TODO: Replace this name.
-    set(SOURCE_FILE_EXT "cu")
   else()
     set(BENCHMARK_TYPE "CXX_BENCHMARK")
-    set(SOURCE_FILE_EXT "cpp")
   endif()
   #message(STATUS "SOURCE_FILE_EXT: ${SOURCE_FILE_EXT}")
   set(BENCHMARK_NAME "${MULTIPLIER}_benchmark")
