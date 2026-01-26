@@ -5,6 +5,12 @@
 // clang-format off
 void ${MULTIPLIER}::operator()(std::size_t n, double const* a, double const* b,
                                double* c) {
+#define ${PAR_EXEC_BASENAME}
+#ifndef ThreadPoolExecutorTemplate
+#undef ${PAR_EXEC_BASENAME}
+  static ParODE::${PARALLEL_EXECUTOR} exe{};
+#endif
+#undef ${PAR_EXEC_BASENAME}
   par_exec_multiply(exe, n, a, b, c);
 }
 // clang-format on
