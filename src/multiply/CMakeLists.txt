@@ -4,6 +4,34 @@ set(GENERATED_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 # Create multiplier libraries
 #############################
 
+function(create_library MULTIPLIER)
+  # Required properties.
+  get_target_property(HEADER_FILE_NAME "${MULTIPLIER}" HEADER_FILE_NAME)
+  get_target_property(HEADER_TEMPLATE_NAME "${MULTIPLIER}" HEADER_TEMPLATE_NAME)
+  get_target_property(SOURCE_FILE_NAME "${MULTIPLIER}" SOURCE_FILE_NAME)
+  get_target_property(SOURCE_TEMPLATE_NAME "${MULTIPLIER}" SOURCE_TEMPLATE_NAME)
+
+  # Optional properties (used in configuring specific template files).
+  # TODO
+
+  # Generate header file.
+  set(HEADER_FILE_PATH "${GENERATED_FILE_DIR}/${HEADER_FILE_NAME}")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${HEADER_TEMPLATE_NAME}"
+    "${HEADER_FILE_PATH}"
+  )
+
+  # Generate source file.
+  set(SOURCE_FILE_PATH "${GENERATED_FILE_DIR}/${SOURCE_FILE_NAME}")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE_TEMPLATE_NAME}"
+    "${SOURCE_FILE_PATH}"
+  )
+
+  # Create the library.
+  target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
+  target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
+  set_property(GLOBAL APPEND PROPERTY MULTIPLIERS "${MULTIPLIER}")
+endfunction()
+
 # Standalone C++ libraries
 set_property(GLOBAL PROPERTY CXX_MULTIPLIERS
   single_threaded_multiply
@@ -14,23 +42,13 @@ get_property(LOCAL_CXX_MULTIPLIERS GLOBAL PROPERTY CXX_MULTIPLIERS)
 foreach(MULTIPLIER IN LISTS LOCAL_CXX_MULTIPLIERS)
   message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
-  # Generate header file.
-  set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
-  set(HEADER_FILE_PATH "${GENERATED_FILE_DIR}/${HEADER_FILE_NAME}")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/multiply.hpp.in"
-    "${HEADER_FILE_PATH}"
-  )
-
-  # Set source file.
-  set(SOURCE_FILE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/${MULTIPLIER}.cpp")
-
-  # Create the library.
-  target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
-  target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_FILE_NAME "${HEADER_FILE_NAME}"
+    HEADER_FILE_NAME "${MULTIPLIER}.hpp"
+    HEADER_TEMPLATE_NAME "multiply.hpp.in"
+    SOURCE_FILE_NAME "${MULTIPLIER}.cpp"
+    SOURCE_TEMPLATE_NAME "${MULTIPLIER}.cpp"
   )
-  set_property(GLOBAL APPEND PROPERTY MULTIPLIERS "${MULTIPLIER}")
+  create_library("${MULTIPLIER}")
 endforeach()
 
 # Special package needed for parallel std::transform.
