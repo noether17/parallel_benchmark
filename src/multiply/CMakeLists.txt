@@ -80,29 +80,13 @@ foreach(PARALLEL_EXECUTOR IN LISTS LOCAL_PARALLEL_EXECUTORS)
   set(MULTIPLIER "${PAR_EXEC_TOKEN}_multiply")
   message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
-
-  # Generate header file.
-  set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
-  set(HEADER_FILE_PATH "${GENERATED_FILE_DIR}/${HEADER_FILE_NAME}")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.hpp.in"
-    "${HEADER_FILE_PATH}"
-  )
-
-  # Generate source file.
-  set(SOURCE_FILE_PATH
-    "${GENERATED_FILE_DIR}/${MULTIPLIER}.${PAR_EXEC_SOURCE_EXT}"
-  )
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ParExec_multiply.cpp.in"
-    "${SOURCE_FILE_PATH}"
-  )
-
-  # Create the library.
-  target_sources("${MULTIPLIER}" PRIVATE "${SOURCE_FILE_PATH}")
-  target_include_directories("${MULTIPLIER}" PUBLIC "${GENERATED_FILE_DIR}")
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_FILE_NAME "${HEADER_FILE_NAME}"
+    HEADER_FILE_NAME "${MULTIPLIER}.hpp"
+    HEADER_TEMPLATE_NAME "ParExec_multiply.hpp.in"
+    SOURCE_FILE_NAME "${MULTIPLIER}.${PAR_EXEC_SOURCE_EXT}"
+    SOURCE_TEMPLATE_NAME "ParExec_multiply.cpp.in"
   )
-  set_property(GLOBAL APPEND PROPERTY MULTIPLIERS "${MULTIPLIER}")
+  create_library("${MULTIPLIER}")
   if("${MULTIPLIER}" MATCHES "^CudaExecutor.*")
     set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${MULTIPLIER}")
   endif()
