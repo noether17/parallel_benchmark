@@ -112,9 +112,7 @@ foreach(CUDA_MULTIPLIER IN LISTS LOCAL_CUDA_MULTIPLIERS)
   add_library("${MULTIPLIER}" STATIC)
 
   # Generate header file.
-  get_target_property(CUDA_MULTIPLIER_HEADER "${CUDA_MULTIPLIER}"
-    HEADER_FILE_NAME
-  )
+  set(CUDA_MULTIPLIER_HEADER "${CUDA_MULTIPLIER}.hpp")
   set(HEADER_FILE_PATH "${GENERATED_FILE_DIR}/${MULTIPLIER}.hpp")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cuda_host_multiply.hpp.in"
     "${HEADER_FILE_PATH}"
