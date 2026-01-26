@@ -6,6 +6,9 @@
 // clang-format off
 #include "${MULTIPLIER_HEADER}"
 #define ${TEST_TYPE}
+#ifdef PAR_EXEC_CUDA_TEST
+#include "multiply/cuda_multiply.cuh"
+#endif
 
 static constexpr auto N = 1 << 10;
 
@@ -26,21 +29,7 @@ TEST(${TEST_NAME}, ProducesCorrectOutput) {
 #ifndef PAR_EXEC_CUDA_TEST
   multiply(N, a.data(), b.data(), c.data());
 #else
-  double* dev_a = nullptr;
-  cudaMalloc(&dev_a, N * sizeof(double));
-  double* dev_b = nullptr;
-  cudaMalloc(&dev_b, N * sizeof(double));
-  double* dev_c = nullptr;
-  cudaMalloc(&dev_c, N * sizeof(double));
-  cudaMemcpy(dev_a, a.data(), N * sizeof(double), cudaMemcpyHostToDevice);
-  cudaMemcpy(dev_b, b.data(), N * sizeof(double), cudaMemcpyHostToDevice);
-
-  multiply(N, dev_a, dev_b, dev_c);
-
-  cudaMemcpy(c.data(), dev_c, N * sizeof(double), cudaMemcpyDeviceToHost);
-  cudaFree(dev_c);
-  cudaFree(dev_b);
-  cudaFree(dev_a);
+  cuda_multiply_host_data(multiply, N, a.data(), b.data(), c.data());
 #endif
 
   for (auto i = 0; i < N; ++i) {
