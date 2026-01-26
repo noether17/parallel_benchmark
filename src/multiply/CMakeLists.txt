@@ -6,21 +6,22 @@ set(GENERATED_FILE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
 function(create_library MULTIPLIER)
   # Required properties.
-  get_target_property(HEADER_FILE_NAME "${MULTIPLIER}" HEADER_FILE_NAME)
   get_target_property(HEADER_TEMPLATE_NAME "${MULTIPLIER}" HEADER_TEMPLATE_NAME)
-  get_target_property(SOURCE_FILE_NAME "${MULTIPLIER}" SOURCE_FILE_NAME)
   get_target_property(SOURCE_TEMPLATE_NAME "${MULTIPLIER}" SOURCE_TEMPLATE_NAME)
+  get_target_property(SOURCE_FILE_EXT "${MULTIPLIER}" SOURCE_FILE_EXT)
 
   # Optional properties (used in configuring specific template files).
   # TODO
 
   # Generate header file.
+  set(HEADER_FILE_NAME "${MULTIPLIER}.hpp")
   set(HEADER_FILE_PATH "${GENERATED_FILE_DIR}/${HEADER_FILE_NAME}")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${HEADER_TEMPLATE_NAME}"
     "${HEADER_FILE_PATH}"
   )
 
   # Generate source file.
+  set(SOURCE_FILE_NAME "${MULTIPLIER}.${SOURCE_FILE_EXT}")
   set(SOURCE_FILE_PATH "${GENERATED_FILE_DIR}/${SOURCE_FILE_NAME}")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE_TEMPLATE_NAME}"
     "${SOURCE_FILE_PATH}"
@@ -43,10 +44,9 @@ foreach(MULTIPLIER IN LISTS LOCAL_CXX_MULTIPLIERS)
   message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_FILE_NAME "${MULTIPLIER}.hpp"
     HEADER_TEMPLATE_NAME "multiply.hpp.in"
-    SOURCE_FILE_NAME "${MULTIPLIER}.cpp"
     SOURCE_TEMPLATE_NAME "${MULTIPLIER}.cpp"
+    SOURCE_FILE_EXT "cpp"
   )
   create_library("${MULTIPLIER}")
 endforeach()
@@ -63,10 +63,9 @@ foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
   message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_FILE_NAME "${MULTIPLIER}.hpp"
     HEADER_TEMPLATE_NAME "multiply.hpp.in"
-    SOURCE_FILE_NAME "${MULTIPLIER}.cu"
     SOURCE_TEMPLATE_NAME "cuda_multiply.cu.in"
+    SOURCE_FILE_EXT "cu"
   )
   create_library("${MULTIPLIER}")
   set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${MULTIPLIER}")
@@ -81,10 +80,9 @@ foreach(PARALLEL_EXECUTOR IN LISTS LOCAL_PARALLEL_EXECUTORS)
   message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_FILE_NAME "${MULTIPLIER}.hpp"
     HEADER_TEMPLATE_NAME "ParExec_multiply.hpp.in"
-    SOURCE_FILE_NAME "${MULTIPLIER}.${PAR_EXEC_SOURCE_EXT}"
     SOURCE_TEMPLATE_NAME "ParExec_multiply.cpp.in"
+    SOURCE_FILE_EXT "${PAR_EXEC_SOURCE_EXT}"
   )
   create_library("${MULTIPLIER}")
   if("${MULTIPLIER}" MATCHES "^CudaExecutor.*")
@@ -98,14 +96,11 @@ foreach(CUDA_MULTIPLIER IN LISTS LOCAL_CUDA_MULTIPLIERS)
   set(MULTIPLIER "host_${CUDA_MULTIPLIER}")
   message(STATUS "Creating library for ${MULTIPLIER}.")
   add_library("${MULTIPLIER}" STATIC)
-  get_target_property(CUDA_MULTIPLIER_HEADER
-    ${CUDA_MULTIPLIER} HEADER_FILE_NAME
-  )
+  set(CUDA_MULTIPLIER_HEADER "${CUDA_MULTIPLIER}.hpp")
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_FILE_NAME "${MULTIPLIER}.hpp"
     HEADER_TEMPLATE_NAME "cuda_host_multiply.hpp.in"
-    SOURCE_FILE_NAME "${MULTIPLIER}.cu"
     SOURCE_TEMPLATE_NAME "cuda_host_multiply.cu.in"
+    SOURCE_FILE_EXT "cu"
   )
   create_library("${MULTIPLIER}")
   target_link_libraries("${MULTIPLIER}" PUBLIC "${CUDA_MULTIPLIER}")
