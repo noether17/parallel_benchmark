@@ -14,7 +14,7 @@ struct ${MULTIPLIER} {
 #define ${PAR_EXEC_BASENAME}
 #ifdef ThreadPoolExecutorTemplate
 #undef ${PAR_EXEC_BASENAME}
-  ${PARALLEL_EXECUTOR} exe{};
+  ${PAR_EXEC_TYPE} exe{};
 #endif
 #undef ${PAR_EXEC_BASENAME}
   void operator()(std::size_t n, double const* a, double const* b, double* c);
