@@ -1,20 +1,4 @@
-## Define PARALLEL_EXECUTORS
-#set_property(GLOBAL APPEND PROPERTY PARALLEL_EXECUTORS
-#  "SingleThreadedExecutor"
-#)
-#set(THREADPOOL_NUM_THREADS 1 2 4 8 16 32)
-#foreach(NUM_THREADS IN LISTS THREADPOOL_NUM_THREADS)
-#  set_property(GLOBAL APPEND PROPERTY PARALLEL_EXECUTORS
-#    "ThreadPoolExecutorTemplate<${NUM_THREADS}>"
-#  )
-#endforeach()
-#set(CUDA_THREADS_PER_BLOCK 32 64 128 256 512 1024)
-#foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
-#  set_property(GLOBAL APPEND PROPERTY PARALLEL_EXECUTORS
-#    "CudaExecutor<${THREADS_PER_BLOCK}>"
-#  )
-#endforeach()
-
+# Define PARALLEL_EXECUTORS
 function(create_parallel_executor BASENAME)
   # Set name.
   set(PARALLEL_EXECUTOR_NAME "${BASENAME}")
@@ -55,13 +39,6 @@ function(create_parallel_executor BASENAME)
   set_property(GLOBAL APPEND PROPERTY PARALLEL_EXECUTORS
     "${PARALLEL_EXECUTOR_NAME}"
   )
-  message(STATUS "Creating ${PARALLEL_EXECUTOR_NAME} target:")
-  message(STATUS "  BASENAME: ${BASENAME}")
-  message(STATUS "  HEADER_FILE_EXT: ${HEADER_FILE_EXT}")
-  message(STATUS "  HEADER_FILE_NAME: ${HEADER_FILE_NAME}")
-  message(STATUS "  SOURCE_FILE_EXT: ${SOURCE_FILE_EXT}")
-  message(STATUS "  TEMPLATE_PARAMS: ${TEMPLATE_PARAMS}")
-  message(STATUS "  TYPENAME: ${TYPENAME}")
 endfunction()
 
 create_parallel_executor("SingleThreadedExecutor")

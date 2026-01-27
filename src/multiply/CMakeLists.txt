@@ -67,10 +67,8 @@ foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
 endforeach()
 
 # Generate ParExec multipliers.
-#include("${CMAKE_SOURCE_DIR}/src/get_par_exec_properties.cmake")
 get_property(LOCAL_PARALLEL_EXECUTORS GLOBAL PROPERTY PARALLEL_EXECUTORS)
 foreach(PARALLEL_EXECUTOR IN LISTS LOCAL_PARALLEL_EXECUTORS)
-  #get_par_exec_properties("${PARALLEL_EXECUTOR}")
   set(MULTIPLIER "${PARALLEL_EXECUTOR}_multiply")
   add_library("${MULTIPLIER}" STATIC)
   get_target_property(PAR_EXEC_BASENAME "${PARALLEL_EXECUTOR}" BASENAME)
