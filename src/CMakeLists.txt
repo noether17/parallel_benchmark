@@ -1,10 +1,10 @@
-# Define PARALLEL_EXECUTORS
-function(create_parallel_executor BASENAME)
+# Define PARALLEL_DOERS
+function(create_parallel_doer BASENAME)
   # Set name.
-  set(PARALLEL_EXECUTOR_NAME "${BASENAME}")
+  set(PARALLEL_DOER_NAME "${BASENAME}")
   foreach(TEMPLATE_PARAM IN LISTS ARGN)
     list(APPEND TEMPLATE_PARAMS "${TEMPLATE_PARAM}")
-    set(PARALLEL_EXECUTOR_NAME "${PARALLEL_EXECUTOR_NAME}_${TEMPLATE_PARAM}")
+    set(PARALLEL_DOER_NAME "${PARALLEL_DOER_NAME}_${TEMPLATE_PARAM}")
   endforeach()
 
   # Set typename.
@@ -23,30 +23,34 @@ function(create_parallel_executor BASENAME)
     set(SOURCE_FILE_EXT "cpp")
   endif()
 
-  # Set header file name for ParExec implementation.
-  set(HEADER_FILE_NAME "${BASENAME}.${HEADER_FILE_EXT}")
+  # Set header file name for ParD implementation.
+  if("${BASENAME}" MATCHES "ThreadPoolTemplateDoer")
+    set(HEADER_FILE_PATH "ParD/ThreadPoolDoer.hpp")
+  else()
+    set(HEADER_FILE_PATH "ParD/${BASENAME}.${HEADER_FILE_EXT}")
+  endif()
 
   # Create target and set properties.
-  add_custom_target("${PARALLEL_EXECUTOR_NAME}")
-  set_target_properties("${PARALLEL_EXECUTOR_NAME}" PROPERTIES
+  add_custom_target("${PARALLEL_DOER_NAME}")
+  set_target_properties("${PARALLEL_DOER_NAME}" PROPERTIES
     BASENAME "${BASENAME}"
-    HEADER_FILE_NAME "${HEADER_FILE_NAME}"
+    HEADER_FILE_PATH "${HEADER_FILE_PATH}"
     SOURCE_FILE_EXT "${SOURCE_FILE_EXT}"
     TYPENAME "${TYPENAME}"
   )
-  set_property(GLOBAL APPEND PROPERTY PARALLEL_EXECUTORS
-    "${PARALLEL_EXECUTOR_NAME}"
+  set_property(GLOBAL APPEND PROPERTY PARALLEL_DOERS
+    "${PARALLEL_DOER_NAME}"
   )
 endfunction()
 
-create_parallel_executor("SingleThreadedExecutor")
+create_parallel_doer("SingleThreadedDoer")
 set(THREADPOOL_NUM_THREADS 1 2 4 8 16 32)
 foreach(NUM_THREADS IN LISTS THREADPOOL_NUM_THREADS)
-  create_parallel_executor("ThreadPoolExecutorTemplate" "${NUM_THREADS}")
+  create_parallel_doer("ThreadPoolTemplateDoer" "${NUM_THREADS}")
 endforeach()
 set(CUDA_THREADS_PER_BLOCK 32 64 128 256 512 1024)
 foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
-  create_parallel_executor("CudaExecutor" "${THREADS_PER_BLOCK}")
+  create_parallel_doer("CudaDoer" "${THREADS_PER_BLOCK}")
 endforeach()
 
 add_subdirectory(multiply)

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 4.0.0)
 project(parallel_benchmark LANGUAGES CXX CUDA)
 
 find_package(benchmark 1.8.2 REQUIRED)
+find_package(ParD REQUIRED)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
