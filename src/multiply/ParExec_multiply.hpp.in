@@ -4,7 +4,7 @@
 
 // clang-format off
 #define ${PAR_EXEC_BASENAME}
-#ifdef ThreadPoolExecutorTemplate
+#ifdef ThreadPoolTemplateDoer
 #undef ${PAR_EXEC_BASENAME}
 #include "${PAR_EXEC_HEADER_FILE}"
 #endif
@@ -12,9 +12,9 @@
 
 struct ${MULTIPLIER} {
 #define ${PAR_EXEC_BASENAME}
-#ifdef ThreadPoolExecutorTemplate
+#ifdef ThreadPoolTemplateDoer
 #undef ${PAR_EXEC_BASENAME}
-  ${PAR_EXEC_TYPE} exe{};
+  ParD::${PAR_EXEC_TYPE} exe{};
 #endif
 #undef ${PAR_EXEC_BASENAME}
   void operator()(std::size_t n, double const* a, double const* b, double* c);

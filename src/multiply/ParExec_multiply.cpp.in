@@ -6,7 +6,7 @@
 void ${MULTIPLIER}::operator()(std::size_t n, double const* a, double const* b,
                                double* c) {
 #define ${PAR_EXEC_BASENAME}
-#ifndef ThreadPoolExecutorTemplate
+#ifndef ThreadPoolTemplateDoer
 #undef ${PAR_EXEC_BASENAME}
   static ParD::${PAR_EXEC_TYPE} exe{};
 #endif
