@@ -6,7 +6,7 @@
 #include "${PARD_HEADER_FILE}"
 
 struct ${MULTIPLIER} {
-  ParD::${PARD_TYPE} exe{};
+  ${PARD_TYPE} exe{};
   void operator()(std::size_t n, double const* a, double const* b, double* c);
 };
 // clang-format on

@@ -8,7 +8,7 @@ function(create_parallel_doer BASENAME FAMILY)
   endforeach()
 
   # Set typename.
-  set(TYPENAME "${BASENAME}")
+  set(TYPENAME "ParD::${BASENAME}")
   if(TEMPLATE_PARAMS)
     list(JOIN TEMPLATE_PARAMS ", " TEMPLATE_PARAMS_STRING)
     set(TYPENAME "${TYPENAME}<${TEMPLATE_PARAMS_STRING}>")
