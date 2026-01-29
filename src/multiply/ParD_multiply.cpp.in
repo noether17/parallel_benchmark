@@ -1,16 +1,16 @@
 #include "${HEADER_FILE_NAME}"
-#include "${PAR_EXEC_HEADER_FILE}"
+#include "${PARD_HEADER_FILE}"
 #include "multiply/par_exec_multiply.hpp"
 
 // clang-format off
 void ${MULTIPLIER}::operator()(std::size_t n, double const* a, double const* b,
                                double* c) {
-#define ${PAR_EXEC_BASENAME}
+#define ${PARD_BASENAME}
 #ifndef ThreadPoolTemplateDoer
-#undef ${PAR_EXEC_BASENAME}
-  static ParD::${PAR_EXEC_TYPE} exe{};
+#undef ${PARD_BASENAME}
+  static ParD::${PARD_TYPE} exe{};
 #endif
-#undef ${PAR_EXEC_BASENAME}
+#undef ${PARD_BASENAME}
   par_exec_multiply(exe, n, a, b, c);
 }
 // clang-format on

@@ -66,28 +66,28 @@ foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
   set_property(GLOBAL APPEND PROPERTY CUDA_MULTIPLIERS "${MULTIPLIER}")
 endforeach()
 
-# Generate ParExec multipliers.
+# Generate ParD multipliers.
 get_property(LOCAL_PARALLEL_DOERS GLOBAL PROPERTY PARALLEL_DOERS)
 foreach(PARALLEL_DOER IN LISTS LOCAL_PARALLEL_DOERS)
   set(MULTIPLIER "${PARALLEL_DOER}_multiply")
   add_library("${MULTIPLIER}" STATIC)
-  get_target_property(PAR_EXEC_BASENAME "${PARALLEL_DOER}" BASENAME)
-  get_target_property(PAR_EXEC_HEADER_FILE
+  get_target_property(PARD_BASENAME "${PARALLEL_DOER}" BASENAME)
+  get_target_property(PARD_HEADER_FILE
     "${PARALLEL_DOER}" HEADER_FILE_PATH
   )
-  get_target_property(PAR_EXEC_SOURCE_EXT
+  get_target_property(PARD_SOURCE_EXT
     "${PARALLEL_DOER}" SOURCE_FILE_EXT
   )
-  get_target_property(PAR_EXEC_TYPE "${PARALLEL_DOER}" TYPENAME)
+  get_target_property(PARD_TYPE "${PARALLEL_DOER}" TYPENAME)
   if("${MULTIPLIER}" MATCHES "^Cuda.*")
     set(MULTIPLIER_TYPE "CUDA_MULTIPLIER")
   else()
     set(MULTIPLIER_TYPE "CXX_MULTIPLIER")
   endif()
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_TEMPLATE_NAME "ParExec_multiply.hpp.in"
-    SOURCE_TEMPLATE_NAME "ParExec_multiply.cpp.in"
-    SOURCE_FILE_EXT "${PAR_EXEC_SOURCE_EXT}"
+    HEADER_TEMPLATE_NAME "ParD_multiply.hpp.in"
+    SOURCE_TEMPLATE_NAME "ParD_multiply.cpp.in"
+    SOURCE_FILE_EXT "${PARD_SOURCE_EXT}"
     MULTIPLIER_TYPE "${MULTIPLIER_TYPE}"
   )
   create_library("${MULTIPLIER}")
