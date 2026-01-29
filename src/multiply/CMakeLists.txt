@@ -87,7 +87,7 @@ foreach(PARALLEL_DOER IN LISTS LOCAL_PARALLEL_DOERS)
   endif()
 
   if("${MULTIPLIER_FAMILY}" STREQUAL "CXX_THREADPOOL_MULTIPLIER")
-    set(HEADER_TEMPLATE_NAME "ParD_multiply.hpp.in")
+    set(HEADER_TEMPLATE_NAME "ThreadPool_multiply.hpp.in")
   else()
     set(HEADER_TEMPLATE_NAME "multiply.hpp.in")
   endif()

@@ -3,20 +3,10 @@
 #include <cstddef>
 
 // clang-format off
-#define ${PARD_BASENAME}
-#ifdef ThreadPoolTemplateDoer
-#undef ${PARD_BASENAME}
 #include "${PARD_HEADER_FILE}"
-#endif
-#undef ${PARD_BASENAME}
 
 struct ${MULTIPLIER} {
-#define ${PARD_BASENAME}
-#ifdef ThreadPoolTemplateDoer
-#undef ${PARD_BASENAME}
   ParD::${PARD_TYPE} exe{};
-#endif
-#undef ${PARD_BASENAME}
   void operator()(std::size_t n, double const* a, double const* b, double* c);
 };
 // clang-format on
