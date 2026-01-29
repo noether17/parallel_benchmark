@@ -112,7 +112,7 @@ foreach(CUDA_MULTIPLIER IN LISTS LOCAL_CUDA_MULTIPLIERS)
   add_library("${MULTIPLIER}" STATIC)
   set(CUDA_MULTIPLIER_HEADER "${CUDA_MULTIPLIER}.hpp")
   set_target_properties("${MULTIPLIER}" PROPERTIES
-    HEADER_TEMPLATE_NAME "cuda_host_multiply.hpp.in"
+    HEADER_TEMPLATE_NAME "multiply.hpp.in"
     SOURCE_TEMPLATE_NAME "cuda_host_multiply.cu.in"
     SOURCE_FILE_EXT "cu"
     MULTIPLIER_FAMILY "HOST_CUDA_MULTIPLIER"

@@ -1,9 +1,12 @@
+#include "${CUDA_MULTIPLIER_HEADER}"
 #include "${MULTIPLIER}.hpp"
 #include "multiply/cuda_multiply.cuh"
 
 // clang-format off
 void ${MULTIPLIER}::operator()(std::size_t n, double const* a, double const* b,
                                double* c) {
+  static ${CUDA_MULTIPLIER} multiplier{};
+
   cuda_multiply_host_data(multiplier, n, a, b, c);
 }
 // clang-format on
