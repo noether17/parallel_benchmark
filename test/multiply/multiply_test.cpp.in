@@ -5,7 +5,7 @@
 
 // clang-format off
 #include "${MULTIPLIER_HEADER}"
-#define ${MULTIPLIER_TYPE}
+#define ${MULTIPLIER_FAMILY}
 #ifdef CUDA_MULTIPLIER
 #include "multiply/cuda_multiply.cuh"
 #endif

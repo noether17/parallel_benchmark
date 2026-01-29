@@ -8,7 +8,7 @@ function(generate_multiplier_benchmark MULTIPLIER)
   # Get multiplier info.
   set(MULTIPLIER_HEADER "${MULTIPLIER}.hpp")
   get_target_property(SOURCE_FILE_EXT "${MULTIPLIER}" SOURCE_FILE_EXT)
-  get_target_property(MULTIPLIER_TYPE "${MULTIPLIER}" MULTIPLIER_TYPE)
+  get_target_property(MULTIPLIER_FAMILY "${MULTIPLIER}" MULTIPLIER_FAMILY)
 
   # Set benchmark info.
   set(BENCHMARK_NAME "${MULTIPLIER}_benchmark")

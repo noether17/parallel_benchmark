@@ -1,5 +1,5 @@
 # Define PARALLEL_DOERS
-function(create_parallel_doer BASENAME)
+function(create_parallel_doer BASENAME FAMILY)
   # Set name.
   set(PARALLEL_DOER_NAME "${BASENAME}")
   foreach(TEMPLATE_PARAM IN LISTS ARGN)
@@ -34,6 +34,7 @@ function(create_parallel_doer BASENAME)
   add_custom_target("${PARALLEL_DOER_NAME}")
   set_target_properties("${PARALLEL_DOER_NAME}" PROPERTIES
     BASENAME "${BASENAME}"
+    FAMILY "${FAMILY}"
     HEADER_FILE_PATH "${HEADER_FILE_PATH}"
     SOURCE_FILE_EXT "${SOURCE_FILE_EXT}"
     TYPENAME "${TYPENAME}"
@@ -43,14 +44,18 @@ function(create_parallel_doer BASENAME)
   )
 endfunction()
 
-create_parallel_doer("SingleThreadedDoer")
+create_parallel_doer("SingleThreadedDoer" "CXX_DOER")
 set(THREADPOOL_NUM_THREADS 1 2 4 8 16 32)
 foreach(NUM_THREADS IN LISTS THREADPOOL_NUM_THREADS)
-  create_parallel_doer("ThreadPoolTemplateDoer" "${NUM_THREADS}")
+  create_parallel_doer(
+    "ThreadPoolTemplateDoer"
+    "CXX_THREADPOOL_DOER"
+    "${NUM_THREADS}"
+  )
 endforeach()
 set(CUDA_THREADS_PER_BLOCK 32 64 128 256 512 1024)
 foreach(THREADS_PER_BLOCK IN LISTS CUDA_THREADS_PER_BLOCK)
-  create_parallel_doer("CudaDoer" "${THREADS_PER_BLOCK}")
+  create_parallel_doer("CudaDoer" "CUDA_DOER" "${THREADS_PER_BLOCK}")
 endforeach()
 
 add_subdirectory(multiply)
