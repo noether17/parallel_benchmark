@@ -44,7 +44,6 @@ find_package(GTest 1.14.0 REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 include_directories(include)
-include_directories(include/ParallelExecutor)
 add_subdirectory(src)
 add_subdirectory(benchmark)
 add_subdirectory(test)

@@ -52,5 +52,5 @@ BENCHMARK(BM_${MULTIPLIER})
     ->MeasureProcessCPUTime()
     ->UseRealTime()
     ->RangeMultiplier(2)
-    ->Range(1 << 5, 1 << 28);
+    ->Range(1 << 5, 1 << 25);
 // clang-format on
