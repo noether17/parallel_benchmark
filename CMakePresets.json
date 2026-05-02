@@ -16,7 +16,8 @@
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       },
       "environment": {
-        "GCC_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Werror -march=native -save-temps -masm=intel"
+        "GCC_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Werror -march=native -save-temps -masm=intel",
+        "NVCC_CUDA_FLAGS": "-forward-unknown-to-host-compiler --expt-relaxed-constexpr --extended-lambda -Wall -Wextra -Xcompiler -Werror -march=native -save-temps -masm=intel"
       }
     },
     {
@@ -26,6 +27,7 @@
       "description": "Builds using optimization level O0",
       "binaryDir": "${sourceDir}/build/O0",
       "cacheVariables": {
+        "CMAKE_CUDA_FLAGS": "$env{NVCC_CUDA_FLAGS} -O0",
         "CMAKE_CXX_FLAGS": "$env{GCC_CXX_FLAGS} -O0"
       }
     },
@@ -36,6 +38,7 @@
       "description": "Builds using optimization level O1",
       "binaryDir": "${sourceDir}/build/O1",
       "cacheVariables": {
+        "CMAKE_CUDA_FLAGS": "$env{NVCC_CUDA_FLAGS} -O1",
         "CMAKE_CXX_FLAGS": "$env{GCC_CXX_FLAGS} -O1"
       }
     },
@@ -46,6 +49,7 @@
       "description": "Builds using optimization level O2",
       "binaryDir": "${sourceDir}/build/O2",
       "cacheVariables": {
+        "CMAKE_CUDA_FLAGS": "$env{NVCC_CUDA_FLAGS} -O2",
         "CMAKE_CXX_FLAGS": "$env{GCC_CXX_FLAGS} -O2"
       }
     },
@@ -56,6 +60,7 @@
       "description": "Builds using optimization level O3",
       "binaryDir": "${sourceDir}/build/O3",
       "cacheVariables": {
+        "CMAKE_CUDA_FLAGS": "$env{NVCC_CUDA_FLAGS} -O3",
         "CMAKE_CXX_FLAGS": "$env{GCC_CXX_FLAGS} -O3"
       }
     }

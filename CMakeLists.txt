@@ -27,17 +27,17 @@ set(CMAKE_CUDA_USE_RESPONSE_FILE_FOR_INCLUDES 0)
 set(CMAKE_CUDA_USE_RESPONSE_FILE_FOR_LIBRARIES 0)
 set(CMAKE_CUDA_USE_RESPONSE_FILE_FOR_OBJECTS 0)
 
-set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} \
-  -Xcompiler -Wall \
-  -Xcompiler -Wextra \
-  -Xcompiler -Werror \
-  -Xcompiler -O3 \
-  -Xcompiler -march=native \
-  -Xcompiler -save-temps \
-  -Xcompiler -masm=intel \
-  --expt-relaxed-constexpr \
-  --extended-lambda"
-)
+#set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} \
+#  -Xcompiler -Wall \
+#  -Xcompiler -Wextra \
+#  -Xcompiler -Werror \
+#  -Xcompiler -O3 \
+#  -Xcompiler -march=native \
+#  -Xcompiler -save-temps \
+#  -Xcompiler -masm=intel \
+#  --expt-relaxed-constexpr \
+#  --extended-lambda"
+#)
 
 enable_testing()
 find_package(GTest 1.14.0 REQUIRED)
