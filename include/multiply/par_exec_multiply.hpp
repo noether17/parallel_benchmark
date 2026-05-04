@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ParD/ParallelDoer.hpp"
+#include "ParX/ParallelExecutor.hpp"
 
 inline constexpr void multiply_kernel(std::size_t i, double const* a,
                                       double const* b, double* c) {
@@ -9,5 +9,5 @@ inline constexpr void multiply_kernel(std::size_t i, double const* a,
 template <typename ParallelExecutor>
 void par_exec_multiply(ParallelExecutor& par_exec, std::size_t n,
                        double const* a, double const* b, double* c) {
-  ParD::call_kernel<multiply_kernel>(par_exec, n, a, b, c);
+  ParX::call_kernel<multiply_kernel>(par_exec, n, a, b, c);
 }
