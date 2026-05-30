@@ -3,6 +3,8 @@
 #include <random>
 #include <vector>
 
+#include "synchronize.hpp"
+
 // clang-format off
 #include "${MULTIPLIER_HEADER}"
 #define ${MULTIPLIER_FAMILY}
@@ -32,6 +34,7 @@ TEST(${TEST_NAME}, ProducesCorrectOutput) {
   multiply(N, a.data(), b.data(), c.data());
 #endif
 
+  synchronize(multiply);
   for (auto i = 0; i < N; ++i) {
     EXPECT_DOUBLE_EQ(a[i] * b[i], c[i]);
   }

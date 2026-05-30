@@ -1,6 +1,7 @@
 #include <benchmark/benchmark.h>
 
 #include "REPEAT.hpp"
+#include "synchronize.hpp"
 
 // clang-format off
 #include "${MULTIPLIER_HEADER}"
@@ -42,6 +43,7 @@ static void BM_${MULTIPLIER}(benchmark::State& state) {
       benchmark::DoNotOptimize(result_ptr);
       benchmark::ClobberMemory();
     });
+    synchronize(multiply);
   }
 #endif
 
