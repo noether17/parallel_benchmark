@@ -1,5 +1,5 @@
 #include "${HEADER_FILE_NAME}"
-#include "${PARD_HEADER_FILE}"
+#include "${PARX_HEADER_FILE}"
 #include "multiply/par_exec_multiply.hpp"
 
 // clang-format off
@@ -7,7 +7,7 @@ void ${MULTIPLIER}::operator()(std::size_t n, double const* a, double const* b,
                                double* c) {
 #define ${MULTIPLIER_FAMILY}
 #ifndef CXX_THREADPOOL_MULTIPLIER
-  static ${PARD_TYPE} exe{};
+  static ${PARX_TYPE} exe{};
 #endif
   par_exec_multiply(exe, n, a, b, c);
 }

@@ -10,4 +10,5 @@ template <typename ParallelExecutor>
 void par_exec_multiply(ParallelExecutor& par_exec, std::size_t n,
                        double const* a, double const* b, double* c) {
   ParX::call_kernel<multiply_kernel>(par_exec, n, a, b, c);
+  par_exec.synchronize();
 }
