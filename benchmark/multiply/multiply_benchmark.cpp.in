@@ -31,7 +31,7 @@ static void BM_${MULTIPLIER}(benchmark::State& state) {
           REPEAT({
             multiply(n, dev_a, dev_b, dev_c);
           });
-          cudaDeviceSynchronize();
+          synchronize(multiply);
         }
       },
       N, a.data(), b.data(), c.data());

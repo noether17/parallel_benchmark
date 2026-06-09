@@ -2,6 +2,8 @@
 
 #include <concepts>
 
+#include "synchronize.hpp"
+
 /* Provides the ceiling of the non-truncated quotient of two integers, i.e., the
  * result of dividend / divisor if the remainder is zero or dividend / divisor +
  * 1 otherwise. Assumes positive inputs. Intended to be used to compute blocks
@@ -34,6 +36,7 @@ void cuda_multiply_host_data(CudaMultiplier&& multiplier, std::size_t n,
   cudaMemcpy(dev_b, b, n * sizeof(double), cudaMemcpyHostToDevice);
 
   multiplier(n, dev_a, dev_b, dev_c);
+  synchronize(multiplier);
 
   cudaMemcpy(c, dev_c, n * sizeof(double), cudaMemcpyDeviceToHost);
   cudaFree(dev_c);
