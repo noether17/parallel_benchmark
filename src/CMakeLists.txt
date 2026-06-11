@@ -28,8 +28,6 @@ function(create_parallel_executor BASENAME FAMILY)
     set(HEADER_FILE_PATH "ParX/AsyncAtomicQueueThreadPoolExecutor.hpp")
   elseif("${BASENAME}" MATCHES "AsyncQueueThreadPoolTemplateExecutor")
     set(HEADER_FILE_PATH "ParX/AsyncQueueThreadPoolExecutor.hpp")
-  elseif("${BASENAME}" MATCHES "AsyncThreadPoolTemplateExecutor")
-    set(HEADER_FILE_PATH "ParX/AsyncThreadPoolExecutor.hpp")
   elseif("${BASENAME}" MATCHES "ThreadPoolTemplateExecutor")
     set(HEADER_FILE_PATH "ParX/ThreadPoolExecutor.hpp")
   else()
@@ -62,13 +60,6 @@ endforeach()
 foreach(NUM_THREADS IN LISTS THREADPOOL_NUM_THREADS)
   create_parallel_executor(
     "AsyncQueueThreadPoolTemplateExecutor"
-    "CXX_THREADPOOL_EXECUTOR"
-    "${NUM_THREADS}"
-  )
-endforeach()
-foreach(NUM_THREADS IN LISTS THREADPOOL_NUM_THREADS)
-  create_parallel_executor(
-    "AsyncThreadPoolTemplateExecutor"
     "CXX_THREADPOOL_EXECUTOR"
     "${NUM_THREADS}"
   )
