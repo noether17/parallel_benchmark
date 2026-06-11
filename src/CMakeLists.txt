@@ -24,7 +24,9 @@ function(create_parallel_executor BASENAME FAMILY)
   endif()
 
   # Set header file name for ParX implementation.
-  if("${BASENAME}" MATCHES "AsyncQueueThreadPoolTemplateExecutor")
+  if("${BASENAME}" MATCHES "AsyncAtomicQueueThreadPoolTemplateExecutor")
+    set(HEADER_FILE_PATH "ParX/AsyncAtomicQueueThreadPoolExecutor.hpp")
+  elseif("${BASENAME}" MATCHES "AsyncQueueThreadPoolTemplateExecutor")
     set(HEADER_FILE_PATH "ParX/AsyncQueueThreadPoolExecutor.hpp")
   elseif("${BASENAME}" MATCHES "AsyncThreadPoolTemplateExecutor")
     set(HEADER_FILE_PATH "ParX/AsyncThreadPoolExecutor.hpp")
@@ -50,6 +52,13 @@ endfunction()
 
 create_parallel_executor("SingleThreadedExecutor" "CXX_EXECUTOR")
 set(THREADPOOL_NUM_THREADS 1 2 4 8 16 32)
+foreach(NUM_THREADS IN LISTS THREADPOOL_NUM_THREADS)
+  create_parallel_executor(
+    "AsyncAtomicQueueThreadPoolTemplateExecutor"
+    "CXX_THREADPOOL_EXECUTOR"
+    "${NUM_THREADS}"
+  )
+endforeach()
 foreach(NUM_THREADS IN LISTS THREADPOOL_NUM_THREADS)
   create_parallel_executor(
     "AsyncQueueThreadPoolTemplateExecutor"
